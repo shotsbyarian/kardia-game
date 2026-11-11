@@ -612,7 +612,8 @@ function buildBG(){
   }
 }
 function resize(){
-  DPR=Math.min(window.devicePixelRatio||1,Q?MAXDPR:1);W=innerWidth;H=innerHeight;
+  // a page opened in a hidden tab or a not-yet-sized frame can report 0×0: never build 0-pixel canvases
+  DPR=Math.min(window.devicePixelRatio||1,Q?MAXDPR:1);W=Math.max(1,innerWidth);H=Math.max(1,innerHeight);
   cv.width=Math.floor(W*DPR);cv.height=Math.floor(H*DPR);cv.style.width=W+'px';cv.style.height=H+'px';
   buildBG();syncCity();
   if(player){player.x=clamp(player.x,20,W-20);player.y=clamp(player.y,20,H-20);}
