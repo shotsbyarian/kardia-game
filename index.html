@@ -100,6 +100,9 @@ canvas{display:block;position:fixed;inset:0;cursor:crosshair}
 #cards{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:30px;max-width:900px}
 .card{width:230px;min-height:170px;padding:20px 18px;border:1px solid rgba(225,22,60,.35);background:linear-gradient(180deg,rgba(40,6,14,.75),rgba(8,2,4,.85));
   cursor:pointer;text-align:left;transition:transform .15s,border-color .15s,box-shadow .15s;position:relative;color:var(--txt);font-family:inherit}
+.card.padfocus{transform:translateY(-4px);border-color:var(--pink);box-shadow:0 0 30px rgba(232,150,172,.45)}
+.padfocus{outline:2px solid #fff!important;outline-offset:3px;box-shadow:0 0 0 5px rgba(225,22,60,.55),0 0 26px rgba(232,150,172,.55)!important;color:#fff!important}
+input[type=range].padfocus{outline-offset:6px}
 .card:hover,.card:focus{transform:translateY(-4px);border-color:var(--red);box-shadow:0 0 30px rgba(225,22,60,.35);outline:none}
 .card .ty{font-size:9px;letter-spacing:.35em}
 .card .ty.rage{color:var(--red)}.card .ty.tender{color:var(--pink)}.card .ty.heart{color:#d9c3c9}
@@ -107,6 +110,18 @@ canvas{display:block;position:fixed;inset:0;cursor:crosshair}
 .card .d{font-size:11px;line-height:1.6;color:#bfa2aa}
 .card .n{position:absolute;top:14px;right:16px;font-size:10px;color:var(--mute)}
 .card .lv{margin-top:12px;font-size:9px;letter-spacing:.2em;color:var(--mute)}
+.card.q{width:190px;min-height:0;padding:22px 14px 16px;text-align:center}
+.card.q .ic{font-size:30px;line-height:1}
+.card.q .ic.rage{color:var(--red);text-shadow:0 0 18px rgba(225,22,60,.7)}.card.q .ic.tender{color:var(--pink);text-shadow:0 0 18px rgba(232,150,172,.6)}.card.q .ic.heart{color:#f1dde3;text-shadow:0 0 16px rgba(241,221,227,.4)}
+.card.q .big{font-family:'Syncopate',sans-serif;font-weight:700;font-size:30px;letter-spacing:.04em;color:#fff;margin:14px 0 6px;white-space:nowrap}
+.card.q .lb{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#d8bcc4;line-height:1.5;min-height:3em}
+.card.q .lv{margin-top:8px}
+.card.q.rare{border-color:rgba(243,201,105,.6);background:linear-gradient(180deg,rgba(60,40,8,.7),rgba(10,6,2,.9))}
+.card.q.rare:hover,.card.q.rare.padfocus{border-color:#f3c969;box-shadow:0 0 34px rgba(243,201,105,.45)}
+.card.q .ic.rare{color:#f3c969;text-shadow:0 0 20px rgba(243,201,105,.8)}.card.q.rare .lv{color:#f3c969}
+#upgrade.rare h3{color:#f3c969;text-shadow:0 0 30px rgba(243,201,105,.6)}#upgrade.rare #upTimer i{background:#f3c969;box-shadow:0 0 10px #f3c969}
+#upTimer{width:min(420px,80vw);height:3px;margin:26px auto 0;background:rgba(232,150,172,.15);overflow:hidden}
+#upTimer i{display:block;height:100%;width:100%;background:var(--pink);box-shadow:0 0 10px var(--pink)}
 
 #combo{margin-top:10px;opacity:0;transition:opacity .25s}
 #combo.on{opacity:1}
@@ -134,6 +149,18 @@ body.calm #hstate.crit,body.calm .hl,body.calm #tut.pop{animation:none}
 #pname::placeholder{color:#5e4a50;text-transform:none;letter-spacing:.1em;font-family:'Space Mono',monospace;font-size:12px}
 #pname:focus{border-color:var(--red);box-shadow:0 0 16px rgba(225,22,60,.35)}
 #pname.need{animation:need .4s;border-color:#fff;box-shadow:0 0 18px rgba(255,255,255,.4)}
+#kbd{z-index:14}
+#kbd h3{margin-bottom:6px}
+#kbdName{font-family:'Syncopate',sans-serif;font-size:clamp(18px,3.2vw,26px);letter-spacing:.2em;color:#fff;min-height:1.7em;min-width:min(440px,92vw);
+  border-bottom:1px solid var(--red);padding:8px 16px;margin:6px 0 20px;text-transform:uppercase;word-break:break-all}
+#kbdName::after{content:'_';color:var(--red);animation:blink 1s steps(1) infinite}
+#kbdKeys{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;width:min(580px,100%)}
+.kk{background:rgba(10,4,6,.6);border:1px solid rgba(225,22,60,.35);color:var(--txt);font-family:'Space Mono',monospace;font-size:clamp(13px,2.2vw,17px);padding:10px 0;cursor:pointer;min-width:0}
+.kk:hover{border-color:var(--red)}
+.kk.w4{grid-column:span 4}.kk.w3{grid-column:span 3}
+.kk.w4,.kk.w3{font-family:'Syncopate',sans-serif;font-size:10px;letter-spacing:.2em}
+.kk.ok{background:rgba(225,22,60,.28);border-color:var(--red);color:#fff}
+#kbd .cta{margin-top:18px}
 @keyframes need{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 #boardTable{margin:22px auto 0;border-collapse:collapse;width:min(640px,92vw);font-size:12px}
 #boardTable th{font-size:9px;letter-spacing:.3em;color:var(--mute);font-weight:400;padding:8px 10px;border-bottom:1px solid rgba(225,22,60,.3);text-align:left}
@@ -202,6 +229,7 @@ body.touch #tut{top:150px}
 #howto h3{font-family:'Syncopate',sans-serif;font-size:clamp(20px,3.6vw,34px);letter-spacing:.35em;color:var(--pink);text-shadow:0 0 20px rgba(232,150,172,.6)}
 #howto .story{animation:rise .8s ease .15s both}
 #howto .controls{animation:rise .8s ease .35s both}
+.controls .cHead{grid-column:1/-1;margin-top:8px;padding-top:12px;border-top:1px solid rgba(225,22,60,.22);color:var(--pink);font-size:10px;letter-spacing:.3em}
 #howto{justify-content:safe center}
 .howGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;width:min(880px,94vw);margin-top:24px;text-align:left}
 .howCard{position:relative;background:linear-gradient(180deg,rgba(30,6,12,.72),rgba(8,2,4,.82));border:1px solid rgba(225,22,60,.25);padding:20px 22px 18px;animation:rise .7s ease both}
@@ -209,6 +237,7 @@ body.touch #tut{top:150px}
 .howCard .hn{position:absolute;top:16px;right:18px;font-family:'Syncopate',sans-serif;font-size:11px;color:rgba(225,22,60,.55);letter-spacing:.1em}
 .howCard h4{font-family:'Syncopate',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--pink);margin-bottom:12px}
 .howCard p{font-size:12px;line-height:1.75;color:#c7aab2}
+.howCard p.hRes{margin-top:10px;padding-top:10px;border-top:1px solid rgba(225,22,60,.18)}.howCard p .gold{color:#f3c969;font-weight:700}
 .howCard p b{color:var(--red);font-weight:700}.howCard p em{color:var(--pink);font-style:normal;font-weight:700}
 .howCard .pw{padding-left:12px;border-left:2px solid;margin-top:9px}.howCard .pw:first-of-type{margin-top:0}
 .pw.rage{border-color:var(--red)}.pw.tend{border-color:var(--pink)}.pw.hm{border-color:rgba(255,255,255,.25)}
@@ -239,6 +268,7 @@ body.touch #soft{bottom:auto;top:56px}
   .bc{gap:10px;bottom:14px}.abil{width:52px;height:52px}
   #boss{top:150px;width:80vw}
   .card{width:100%;max-width:340px;min-height:0}
+  #cards{gap:8px}.card.q{width:calc(33.3% - 6px);min-width:0;padding:16px 4px 12px}.card.q .big{font-size:20px}.card.q .lb{font-size:10px;letter-spacing:.1em}.card.q .ic{font-size:24px}
   .controls{grid-template-columns:auto}
   .stats{grid-template-columns:repeat(2,1fr)}
 }
@@ -267,7 +297,7 @@ body.touch #soft{bottom:auto;top:56px}
   <div id="boss" class="hidden"><div class="lbl"><span id="bossLbl">THE SILENCE</span><span id="bossState"></span></div><div class="bar"><i id="bossFill"></i><b class="tick" style="left:66%"></b><b class="tick" style="left:33%"></b></div></div>
   <div id="soft" data-i18n="softened">SOFTENED</div>
   <div class="bc">
-    <div class="abil" id="abT"><span class="k" id="kT">K</span><span data-i18n="tender">TENDER</span></div>
+    <div class="abil" id="abT"><span class="k" id="kT">K</span><span data-i18n="tender">GRACE</span></div>
     <div class="balance">
       <div class="blbl"><span data-i18n="calm">CALM</span><span id="hstate">STEADY</span><span data-i18n="rage">RAGE</span></div>
       <div class="bmeter"><i id="bneedle"></i></div>
@@ -307,7 +337,7 @@ body.touch #soft{bottom:auto;top:56px}
   <h3 data-i18n="howBtn">HOW TO PLAY</h3>
   <div class="howGrid">
     <section class="howCard"><div class="hn">01</div><h4 data-i18n="hStoryT">THE STORY</h4><p data-i18n-html="hStory"></p></section>
-    <section class="howCard"><div class="hn">02</div><h4 data-i18n="hGoalT">YOUR GOAL</h4><p data-i18n-html="hGoal"></p></section>
+    <section class="howCard"><div class="hn">02</div><h4 data-i18n="hGoalT">YOUR GOAL</h4><p data-i18n-html="hGoal"></p><p class="hRes" data-i18n-html="hRes"></p></section>
     <section class="howCard"><div class="hn">03</div><h4 data-i18n="hPowT">YOUR TWO POWERS</h4><p class="pw rage" data-i18n-html="hRage"></p><p class="pw tend" data-i18n-html="hTend"></p><p class="pw hm" data-i18n-html="hHarm"></p></section>
     <section class="howCard"><div class="hn">04</div><h4 data-i18n="hCtrlT">CONTROLS</h4><div class="controls" id="ctrlList"></div></section>
   </div>
@@ -315,15 +345,16 @@ body.touch #soft{bottom:auto;top:56px}
 </div>
 
 <div id="upgrade" class="screen hidden">
-  <h3 data-i18n="resonance">RESONANCE</h3>
+  <h3 id="upTitle">RESONANCE</h3>
   <p><span data-i18n="resSub">Your heart remembers something. Choose.</span> <span id="upKeys">[1] [2] [3]</span></p>
   <div id="cards"></div>
+  <div id="upTimer"><i id="upTimerFill"></i></div>
 </div>
 
 <div id="pause" class="screen hidden">
   <h3 data-i18n="still">STILL</h3>
-  <div class="cta" id="resumeCta">[ P / ESC TO RESUME ]</div>
-  <div class="menuBtns"><button class="mbtn" id="pResume" data-i18n="resumeBtn">RESUME</button><button class="mbtn alt" id="pSet" data-i18n="settingsBtn">SETTINGS</button><button class="mbtn alt" id="pMenu" data-i18n="menuBtn">MAIN MENU</button></div>
+  <div class="cta" id="resumeCta">[ P / ESC RESUME · R RESTART ]</div>
+  <div class="menuBtns"><button class="mbtn" id="pResume" data-i18n="resumeBtn">RESUME</button><button class="mbtn alt" id="pRestart" data-i18n="restartBtn">RESTART</button><button class="mbtn alt" id="pSet" data-i18n="settingsBtn">SETTINGS</button><button class="mbtn alt" id="pMenu" data-i18n="menuBtn">MAIN MENU</button></div>
 </div>
 
 <div id="over" class="screen hidden">
@@ -374,9 +405,16 @@ body.touch #soft{bottom:auto;top:56px}
 
 <div id="touch" class="hidden">
   <div id="zone"><div id="stickBase"><div id="knob"></div></div></div>
-  <button class="tb" id="tTend" data-i18n="tendBtn">TEND</button>
+  <button class="tb" id="tTend" data-i18n="tendBtn">GRACE</button>
   <button class="tb" id="tRage" data-i18n="rage">RAGE</button>
   <button class="tb" id="tDash" data-i18n="dash">DASH</button>
+</div>
+
+<div id="kbd" class="screen hidden">
+  <h3 data-i18n="yourName">YOUR NAME</h3>
+  <div id="kbdName"></div>
+  <div id="kbdKeys"></div>
+  <div class="cta" data-i18n="kbdHint">✚ move · SELECT type · START = OK</div>
 </div>
 
 <div id="langSel" aria-label="Language"><button data-lang="en">EN</button><button data-lang="fr">FR</button></div>
@@ -401,7 +439,7 @@ let mode='title';
 let player=null,up=null;
 let enemies=[],bullets=[],parts=[],frags=[],rings=[],fields=[],texts=[],portals=[];
 let T=0,score=0,kills=0,wave=0,harmony=0,lastAb=null,harmT=0,mult=1;
-let res=0,resNeed=10,pendingUp=0,magnetAll=false;
+let res=0,resNeed=10,pendingUp=0,pendingRare=0,rareNow=false,magnetAll=false;
 let shakeA=0,flashR=0,flashP=0,hitStop=0,deathT=0,overT=0;
 let sfxBudget=0;
 let best=0;
@@ -414,7 +452,7 @@ try{const o=JSON.parse(localStorage.getItem('rougeDouceurSettings')||'{}');for(c
 function saveSettings(){try{localStorage.setItem('rougeDouceurSettings',JSON.stringify(S))}catch(e){}}
 const masterVol=()=>muted?0:.7*S.vol;
 /* city revival: windows and street lamps that light up as waves are cleared */
-const cityWins=[],cityLamps=[],lightWaves=[];
+const cityWins=[],cityLamps=[],lightWaves=[];let cityDim=1,dawn=0;   // dawn: 0 night … 1 sunrise   // 0.4 during fights, 1 in breaks / menus
 let life=0,lifeT=0,cleared=0,endShown=false,endAt=0;
 function syncCity(){for(const w of cityWins){w.lit=w.thr<=lifeT?1:0;w.at=0;}for(const l of cityLamps){l.lit=l.thr<=lifeT?1:0;l.at=0;}}
 function reviveCity(){
@@ -428,40 +466,40 @@ function reviveCity(){
 /* ================= language ================= */
 const I18N={
 en:{docTitle:'Kardia — Kill the Silence',logo:'KARDIA',heart:'HEART',energy:'ENERGY',best:'BEST',wave:'WAVE',bossName:'THE SILENCE',softened:'SOFTENED',
-  tender:'TENDER',rage:'RAGE',calm:'CALM',harmony:'HARMONY',tag:'KILL THE SILENCE',
-  story:'In a forgotten city, every feeling has been swallowed by <b>the Silence</b>. You are the last thing that still beats — a red heart holding two powers. <b>Rage</b> grows stronger the more unstable your heart becomes, but at 100% it <b>fractures</b>. <em>Tenderness</em> calms it and restores energy, yet softens your strikes for a moment. Alternate them to build <em>Harmony</em>.',
-  controls:'<div><kbd>WASD/ZQSD</kbd><kbd>↑↓←→</kbd> move</div><div><kbd>SPACE</kbd> dash</div><div><kbd>J</kbd><kbd>L-CLICK</kbd> rage</div><div><kbd>K</kbd><kbd>R-CLICK</kbd> tenderness</div><div><kbd>P</kbd><kbd>ESC</kbd> pause</div><div><kbd>M</kbd> mute · <kbd>L</kbd> language</div>',
-  ctrlTouch:'<div>left thumb · move</div><div>RAGE · TEND · DASH buttons</div>',
+  tender:'GRACE',rage:'RAGE',calm:'CALM',harmony:'HARMONY',tag:'KILL THE SILENCE',
+  story:'In a forgotten city, every feeling has been swallowed by <b>the Silence</b>. You are the last thing that still beats — a red heart holding two powers. <b>Rage</b> grows stronger the more unstable your heart becomes, but at 100% it <b>fractures</b>. <em>Grace</em> calms it and restores energy, yet softens your strikes for a moment. Alternate them to build <em>Harmony</em>.',
+  controls:'<div><kbd>WASD/ZQSD</kbd><kbd>↑↓←→</kbd> move</div><div><kbd>SPACE</kbd> dash</div><div><kbd>J</kbd><kbd>L-CLICK</kbd> rage</div><div><kbd>K</kbd><kbd>R-CLICK</kbd> grace</div><div><kbd>P</kbd><kbd>ESC</kbd> pause</div><div><kbd>M</kbd> mute · <kbd>L</kbd> language · <kbd>F</kbd> full screen</div><div class="cHead">CONTROLLER</div><div><kbd>D-PAD</kbd> move · menus</div><div><kbd>1</kbd><kbd>3</kbd> dash</div><div><kbd>4</kbd><kbd>R1</kbd><kbd>R2</kbd> rage</div><div><kbd>2</kbd><kbd>L1</kbd><kbd>L2</kbd> grace</div><div><kbd>START</kbd> play · pause</div>',
+  ctrlTouch:'<div>left thumb · move</div><div>RAGE · GRACE · DASH buttons</div>',
   start:'or press Enter',startTouch:'',playBtn:'PLAY',howBtn:'HOW TO PLAY',
   hStoryT:'THE STORY',hStory:'A forgotten city has lost every feeling, swallowed by <b>the Silence</b>. You are the last heart that still beats.',
-  hGoalT:'YOUR GOAL',hGoal:'Survive the waves of shadows. Every wave you clear <em>brings the city back to life</em>. Reach <b>wave 10</b> to break the Silence, then keep going for the highest score.',
+  hGoalT:'YOUR GOAL',hRes:'Shadows drop <em>fragments</em>: grab them before they fade to fill the <em>Resonance</em> and pick a bonus after the wave. Every boss leaves a <span class="gold">★ rare Resonance</span>.',hGoal:'Survive the waves of shadows. Every wave you clear <em>brings the city back to life</em>. Reach <b>wave 10</b> to break the Silence, then keep going for the highest score.',
   hPowT:'YOUR TWO POWERS',
-  hRage:'<b>Rage · {rage}</b> — a red shockwave that destroys shadows. The more unstable your heart, the harder it hits, but at 100% your heart breaks.',
-  hTend:'<em>Tenderness · {tend}</em> — a pink bubble that calms your heart, heals you and slows enemies, but softens your attacks for a moment.',
+  hRage:'<b>Rage</b> — a red shockwave that destroys shadows. The more unstable your heart, the harder it hits, but at 100% your heart breaks.',
+  hTend:'<em>Grace</em> — a pink bubble that calms your heart, heals you and slows enemies, but softens your attacks for a moment.',
   hHarm:'<span class="hl2">Switch between them</span> to build <em>Harmony</em>: more damage, more points.',
-  hCtrlT:'CONTROLS',resonance:'RESONANCE',resSub:'Your heart remembers something. Choose.',
-  still:'STILL',resume:'[ P / ESC TO RESUME ]',resumeTouch:'[ TAP TO RESUME ]',overTitle:'THE SILENCE<br>WINS',overTag:'YOUR HEART STOPPED',
+  hCtrlT:'CONTROLS',resonance:'RESONANCE',exposed:'EXPOSED ×2.5',resonanceRare:'RARE RESONANCE',rareTag:'★ RARE',secondWind:'SECOND WIND',resReady:'RESONANCE READY · AFTER THE WAVE',resSub:'Choose one.',
+  still:'STILL',resume:'[ P / ESC RESUME · R RESTART ]',resumeTouch:'[ TAP TO RESUME ]',overTitle:'THE SILENCE<br>WINS',overTag:'YOUR HEART STOPPED',
   score:'SCORE',kills:'KILLS',newbest:'— A NEW RECORD OF FEELING —',again:'[ PRESS ENTER OR CLICK TO BEAT AGAIN ]',againTouch:'[ TAP TO BEAT AGAIN ]',
-  tendBtn:'TEND',dash:'DASH',soundOn:'SOUND ON',soundOff:'SOUND OFF',harmonyN:'HARMONY',discord:'discord',noEnergy:'no energy',fracture:'HEART FRACTURE',
+  tendBtn:'GRACE',dash:'DASH',soundOn:'SOUND ON',soundOff:'SOUND OFF',harmonyN:'HARMONY',discord:'discord',noEnergy:'no energy',fracture:'HEART FRACTURE',
   lines:['the streets forgot how to weep','no one here remembers laughter','the silence has teeth','hold on to what you feel','they feed on the quiet',
     'every beat is a rebellion','love is louder than this','the dark is listening','remember her voice','burn, then forgive'],
   bossLine:'the silence itself awakens',broken:'SILENCE BROKEN',steadies:'the heart steadies',shattered:'SILENCE SHATTERED',remembers:'for a moment, the city remembers',
-  steady:'STEADY',restless:'RESTLESS',critical:'CRITICAL',fractured:'FRACTURED',tyRage:'◆ RAGE',tyTender:'◇ TENDERNESS',tyHeart:'♥ HEART',level:'LEVEL',langName:'ENGLISH',
-  tutLabel:'TUTORIAL',tutSkip:'SKIP ›',tutSkipKey:'[TAB] SKIP ›',tutToggle:'TUTORIAL',on:'ON',off:'OFF',
+  steady:'STEADY',restless:'RESTLESS',critical:'CRITICAL',fractured:'FRACTURED',tyRage:'◆ RAGE',tyTender:'◇ GRACE',tyHeart:'♥ HEART',level:'LEVEL',langName:'ENGLISH',
+  tutLabel:'TUTORIAL',tutSkip:'SKIP ›',tutSkipKey:'[TAB] SKIP ›',tutSkipPad:'[SELECT] SKIP ›',tutToggle:'TUTORIAL',on:'ON',off:'OFF',
   combo:'COMBO',comboN:'COMBO',comboLost:'combo lost',difficulty:'DIFFICULTY',easy:'EASY',normal:'NORMAL',hard:'HARD',bestCombo:'BEST COMBO',
   cityRevived:'CITY REVIVED',
   finalName:'THE GREAT SILENCE',finalLine:'the great silence rises. end it',veiled:'VEILED',veilBroken:'VEIL BROKEN',
-  finalP2T:'IT HIDES',finalP2S:'break its veil with tenderness',finalP3T:'IT SCREAMS',finalP3S:'the silence is afraid',
-  finalHint:'<b>THE VEIL</b> — Rage can’t touch it. Catch it in your Tenderness field to break the veil, then strike.',
-  resumeBtn:'RESUME',settingsBtn:'SETTINGS',settingsTitle:'SETTINGS',volume:'SOUND VOLUME',shakeLbl:'SCREEN SHAKE',flashLbl:'FLASHES',
+  finalP2T:'IT HIDES',finalP2S:'break its veil with grace',finalP3T:'IT SCREAMS',finalP3S:'the silence is afraid',
+  finalHint:'<b>THE VEIL</b> — Rage can’t touch it. Catch it in your Grace field to break the veil, then strike.',
+  resumeBtn:'RESUME',restartBtn:'RESTART',startPad:'START play · ✚ choose · SELECT confirm',againPad:'[ START PLAY AGAIN · ✚ CHOOSE · SELECT CONFIRM ]',resumePad:'[ START RESUME · ✚ CHOOSE · SELECT CONFIRM ]',endCtaPad:'[ ✚ CHOOSE · SELECT CONFIRM ]',padOn:'CONTROLLER CONNECTED',padName:'PLAYER',settingsBtn:'SETTINGS',settingsTitle:'SETTINGS',volume:'SOUND VOLUME',shakeLbl:'SCREEN SHAKE',flashLbl:'FLASHES',
   optOn:'ON',optReduced:'REDUCED',optOff:'OFF',flashNote:'Turn flashes down if bright or flickering light is uncomfortable for you.',
-  yourName:'YOUR NAME',namePh:'type your name',boardBtn:'LEADERBOARD',boardTitle:'LEADERBOARD',all:'ALL',name:'NAME',mode:'MODE',
+  yourName:'YOUR NAME',namePh:'type your name',namePhPad:'SELECT to type your name',kbdSpace:'SPACE',kbdDel:'⌫ DELETE',kbdOk:'OK',kbdHint:'✚ move · SELECT type · START = OK',boardBtn:'LEADERBOARD',boardTitle:'LEADERBOARD',all:'ALL',name:'NAME',mode:'MODE',
   noScores:'No scores yet. Be the first heart to beat.',backBtn:'BACK',resetBtn:'RESET BOARD',resetConfirm:'Erase every score saved on this computer?',rank:'RANK',againBtn:'PLAY AGAIN',menuBtn:'MAIN MENU',endlessBtn:'ENDLESS MODE',
   memories:['I remember a warm light in a window.','Someone used to sing in this street.','There was laughter here. Loud, careless.',
     'I was angry once. It meant I cared.','A hand on my shoulder. A voice: “breathe.”','We fought. Then we forgave.',
     'The city did not forget. It was waiting.','Every window holds a heartbeat.','Silence is not peace. It is absence.','Now I remember everything.'],
   endTitle:'THE SILENCE<br>IS BROKEN',endTag:'THE CITY REMEMBERS',
-  endText:'Ten waves. Rage and tenderness, together. The city remembers how to feel, and it will not go quiet again.',
+  endText:'Ten waves. Rage and grace, together. The city remembers how to feel, and it will not go quiet again.',
   endCta:'[ ENTER OR CLICK · ENDLESS MODE ]',endCtaTouch:'[ TAP · ENDLESS MODE ]',endless:'ENDLESS',
   desc_easy:'More health, slower and weaker shadows, fewer of them. Score ×0.6',
   desc_normal:'The intended experience. Score ×1',
@@ -469,51 +507,51 @@ en:{docTitle:'Kardia — Kill the Silence',logo:'KARDIA',heart:'HEART',energy:'E
   hints:{wisp:'<b>NEW · WISP</b> — tiny and fast. Keep moving.',
     brute:'<b>NEW · BRUTE</b> — slow and tough. An unstable heart hits harder.',
     weeper:'<b>NEW · WEEPER</b> — shoots tears from afar. Rage destroys its shots.',
-    phantom:'<b>NEW · PHANTOM</b> — invisible and untouchable. Reveal it with Tenderness.',
+    phantom:'<b>NEW · PHANTOM</b> — invisible and untouchable. Reveal it with Grace.',
     echo:'<b>NEW · ECHO</b> — copies your Rage. Dash through its pink wave, or rage far from it.',
     hollow:'<b>NEW · HOLLOW</b> — splits into wisps when destroyed.'},
   tut:[['Move with <b>{move}</b>','Dodge the shadows. Stay alive.'],
     ['Press <b>{dash}</b> to dash','Nothing can hurt you mid-dash.'],
     ['Shadows! Press <b>{rage}</b> for RAGE','A red shockwave destroys everything nearby.'],
-    ['Your heart is unstable: press <b>{tend}</b>','Each Rage pushes the bar below toward 100%. At 100% the heart breaks. Tenderness calms it and restores energy.'],
-    ['Now <b>{rage}</b> again: switch for HARMONY','Alternating Rage and Tenderness boosts your damage and score.'],
+    ['Your heart is unstable: press <b>{tend}</b>','Each Rage pushes the bar below toward 100%. At 100% the heart breaks. Grace calms it and restores energy.'],
+    ['Now <b>{rage}</b> again: switch for HARMONY','Alternating Rage and Grace boosts your damage and score.'],
     ['Collect the glowing fragments','They fill the top bar. When it is full, you choose a power-up.'],
     ['You are ready.','Survive as long as you can. Kill the silence.']]},
 fr:{docTitle:'Kardia — Tuer le silence',logo:'KARDIA',heart:'CŒUR',energy:'ÉNERGIE',best:'RECORD',wave:'VAGUE',bossName:'LE SILENCE',softened:'ADOUCI',
-  tender:'DOUCEUR',rage:'RAGE',calm:'CALME',harmony:'HARMONIE',tag:'TUER LE SILENCE',
-  story:'Dans une ville oubliée, chaque sentiment a été avalé par <b>le Silence</b>. Tu es la dernière chose qui bat encore — un cœur rouge porteur de deux pouvoirs. La <b>Rage</b> devient plus forte à mesure que ton cœur se déstabilise, mais à 100 % il se <b>fracture</b>. La <em>Tendresse</em> l’apaise et restaure ton énergie, mais adoucit tes coups un instant. Alterne les deux pour créer l’<em>Harmonie</em>.',
-  controls:'<div><kbd>ZQSD/WASD</kbd><kbd>↑↓←→</kbd> bouger</div><div><kbd>ESPACE</kbd> élan</div><div><kbd>J</kbd><kbd>CLIC G.</kbd> rage</div><div><kbd>K</kbd><kbd>CLIC D.</kbd> tendresse</div><div><kbd>P</kbd><kbd>ÉCHAP</kbd> pause</div><div><kbd>M</kbd> son · <kbd>L</kbd> langue</div>',
-  ctrlTouch:'<div>pouce gauche · bouger</div><div>boutons RAGE · DOUX · ÉLAN</div>',
+  tender:'GRÂCE',rage:'RAGE',calm:'CALME',harmony:'HARMONIE',tag:'TUER LE SILENCE',
+  story:'Dans une ville oubliée, chaque sentiment a été avalé par <b>le Silence</b>. Tu es la dernière chose qui bat encore — un cœur rouge porteur de deux pouvoirs. La <b>Rage</b> devient plus forte à mesure que ton cœur se déstabilise, mais à 100 % il se <b>fracture</b>. La <em>Grâce</em> l’apaise et restaure ton énergie, mais adoucit tes coups un instant. Alterne les deux pour créer l’<em>Harmonie</em>.',
+  controls:'<div><kbd>ZQSD/WASD</kbd><kbd>↑↓←→</kbd> bouger</div><div><kbd>ESPACE</kbd> élan</div><div><kbd>J</kbd><kbd>CLIC G.</kbd> rage</div><div><kbd>K</kbd><kbd>CLIC D.</kbd> grâce</div><div><kbd>P</kbd><kbd>ÉCHAP</kbd> pause</div><div><kbd>M</kbd> son · <kbd>L</kbd> langue · <kbd>F</kbd> plein écran</div><div class="cHead">MANETTE</div><div><kbd>D-PAD</kbd> bouger · menus</div><div><kbd>1</kbd><kbd>3</kbd> élan</div><div><kbd>4</kbd><kbd>R1</kbd><kbd>R2</kbd> rage</div><div><kbd>2</kbd><kbd>L1</kbd><kbd>L2</kbd> grâce</div><div><kbd>START</kbd> jouer · pause</div>',
+  ctrlTouch:'<div>pouce gauche · bouger</div><div>boutons RAGE · GRÂCE · ÉLAN</div>',
   start:'ou appuie sur Entrée',startTouch:'',playBtn:'JOUER',howBtn:'COMMENT JOUER',
   hStoryT:'L’HISTOIRE',hStory:'Une ville oubliée a perdu tous ses sentiments, avalés par <b>le Silence</b>. Tu es le dernier cœur qui bat encore.',
-  hGoalT:'TON BUT',hGoal:'Survis aux vagues d’ombres. Chaque vague terminée <em>ramène la ville à la vie</em>. Atteins la <b>vague 10</b> pour briser le Silence, puis continue pour le meilleur score.',
+  hGoalT:'TON BUT',hRes:'Les ombres lâchent des <em>fragments</em> : attrape-les avant qu’ils s’effacent pour remplir la <em>Résonance</em> et choisir un bonus après la vague. Chaque boss laisse une <span class="gold">★ Résonance rare</span>.',hGoal:'Survis aux vagues d’ombres. Chaque vague terminée <em>ramène la ville à la vie</em>. Atteins la <b>vague 10</b> pour briser le Silence, puis continue pour le meilleur score.',
   hPowT:'TES DEUX POUVOIRS',
-  hRage:'<b>Rage · {rage}</b> — une onde rouge qui détruit les ombres. Plus ton cœur est instable, plus elle frappe fort, mais à 100 % ton cœur se brise.',
-  hTend:'<em>Tendresse · {tend}</em> — une bulle rose qui apaise ton cœur, te soigne et ralentit les ennemis, mais adoucit tes coups un instant.',
+  hRage:'<b>Rage</b> — une onde rouge qui détruit les ombres. Plus ton cœur est instable, plus elle frappe fort, mais à 100 % ton cœur se brise.',
+  hTend:'<em>Grâce</em> — une bulle rose qui apaise ton cœur, te soigne et ralentit les ennemis, mais adoucit tes coups un instant.',
   hHarm:'<span class="hl2">Alterne les deux</span> pour créer l’<em>Harmonie</em> : plus de dégâts, plus de points.',
-  hCtrlT:'COMMANDES',resonance:'RÉSONANCE',resSub:'Ton cœur se souvient de quelque chose. Choisis.',
-  still:'PAUSE',resume:'[ P / ÉCHAP POUR REPRENDRE ]',resumeTouch:'[ TOUCHE POUR REPRENDRE ]',overTitle:'LE SILENCE<br>L’EMPORTE',overTag:'TON CŒUR S’EST ARRÊTÉ',
+  hCtrlT:'COMMANDES',resonance:'RÉSONANCE',exposed:'EXPOSÉ ×2,5',resonanceRare:'RÉSONANCE RARE',rareTag:'★ RARE',secondWind:'SECOND SOUFFLE',resReady:'RÉSONANCE PRÊTE · APRÈS LA VAGUE',resSub:'Choisis-en un.',
+  still:'PAUSE',resume:'[ P / ÉCHAP REPRENDRE · R RECOMMENCER ]',resumeTouch:'[ TOUCHE POUR REPRENDRE ]',overTitle:'LE SILENCE<br>L’EMPORTE',overTag:'TON CŒUR S’EST ARRÊTÉ',
   score:'SCORE',kills:'ÉLIMINÉS',newbest:'— UN NOUVEAU RECORD D’ÉMOTION —',again:'[ ENTRÉE OU CLIC POUR BATTRE À NOUVEAU ]',againTouch:'[ TOUCHE POUR BATTRE À NOUVEAU ]',
-  tendBtn:'DOUX',dash:'ÉLAN',soundOn:'SON ACTIVÉ',soundOff:'SON COUPÉ',harmonyN:'HARMONIE',discord:'discorde',noEnergy:'pas d’énergie',fracture:'CŒUR FRACTURÉ',
+  tendBtn:'GRÂCE',dash:'ÉLAN',soundOn:'SON ACTIVÉ',soundOff:'SON COUPÉ',harmonyN:'HARMONIE',discord:'discorde',noEnergy:'pas d’énergie',fracture:'CŒUR FRACTURÉ',
   lines:['les rues ont oublié comment pleurer','plus personne ne se souvient du rire','le silence a des dents','accroche-toi à ce que tu ressens','ils se nourrissent du calme',
     'chaque battement est une révolte','l’amour est plus fort que ça','l’obscurité écoute','souviens-toi de sa voix','brûle, puis pardonne'],
   bossLine:'le silence lui-même s’éveille',broken:'SILENCE BRISÉ',steadies:'le cœur s’apaise',shattered:'SILENCE ANÉANTI',remembers:'pour un instant, la ville se souvient',
-  steady:'STABLE',restless:'AGITÉ',critical:'CRITIQUE',fractured:'FRACTURÉ',tyRage:'◆ RAGE',tyTender:'◇ TENDRESSE',tyHeart:'♥ CŒUR',level:'NIVEAU',langName:'FRANÇAIS',
-  tutLabel:'TUTORIEL',tutSkip:'PASSER ›',tutSkipKey:'[TAB] PASSER ›',tutToggle:'TUTORIEL',on:'OUI',off:'NON',
+  steady:'STABLE',restless:'AGITÉ',critical:'CRITIQUE',fractured:'FRACTURÉ',tyRage:'◆ RAGE',tyTender:'◇ GRÂCE',tyHeart:'♥ CŒUR',level:'NIVEAU',langName:'FRANÇAIS',
+  tutLabel:'TUTORIEL',tutSkip:'PASSER ›',tutSkipKey:'[TAB] PASSER ›',tutSkipPad:'[SELECT] PASSER ›',tutToggle:'TUTORIEL',on:'OUI',off:'NON',
   combo:'COMBO',comboN:'COMBO',comboLost:'combo perdu',difficulty:'DIFFICULTÉ',easy:'FACILE',normal:'NORMAL',hard:'DIFFICILE',bestCombo:'MEILLEUR COMBO',
   cityRevived:'VILLE RANIMÉE',
   finalName:'LE GRAND SILENCE',finalLine:'le grand silence se lève. achève-le',veiled:'VOILÉ',veilBroken:'VOILE BRISÉ',
-  finalP2T:'IL SE CACHE',finalP2S:'brise son voile avec la tendresse',finalP3T:'IL HURLE',finalP3S:'le silence a peur',
-  finalHint:'<b>LE VOILE</b> — la Rage ne peut pas l’atteindre. Attrape-le dans ton champ de Tendresse pour briser le voile, puis frappe.',
-  resumeBtn:'REPRENDRE',settingsBtn:'RÉGLAGES',settingsTitle:'RÉGLAGES',volume:'VOLUME DU SON',shakeLbl:'TREMBLEMENT DE L’ÉCRAN',flashLbl:'FLASHS',
+  finalP2T:'IL SE CACHE',finalP2S:'brise son voile avec la grâce',finalP3T:'IL HURLE',finalP3S:'le silence a peur',
+  finalHint:'<b>LE VOILE</b> — la Rage ne peut pas l’atteindre. Attrape-le dans ton champ de Grâce pour briser le voile, puis frappe.',
+  resumeBtn:'REPRENDRE',restartBtn:'RECOMMENCER',startPad:'START jouer · ✚ choisir · SELECT valider',againPad:'[ START REJOUER · ✚ CHOISIR · SELECT VALIDER ]',resumePad:'[ START REPRENDRE · ✚ CHOISIR · SELECT VALIDER ]',endCtaPad:'[ ✚ CHOISIR · SELECT VALIDER ]',padOn:'MANETTE CONNECTÉE',padName:'JOUEUR',settingsBtn:'RÉGLAGES',settingsTitle:'RÉGLAGES',volume:'VOLUME DU SON',shakeLbl:'TREMBLEMENT DE L’ÉCRAN',flashLbl:'FLASHS',
   optOn:'ACTIVÉ',optReduced:'RÉDUIT',optOff:'DÉSACTIVÉ',flashNote:'Réduis les flashs si les lumières vives ou clignotantes te gênent.',
-  yourName:'TON NOM',namePh:'écris ton nom',boardBtn:'CLASSEMENT',boardTitle:'CLASSEMENT',all:'TOUS',name:'NOM',mode:'MODE',
+  yourName:'TON NOM',namePh:'écris ton nom',namePhPad:'SELECT pour écrire ton nom',kbdSpace:'ESPACE',kbdDel:'⌫ EFFACER',kbdOk:'OK',kbdHint:'✚ bouger · SELECT écrire · START = OK',boardBtn:'CLASSEMENT',boardTitle:'CLASSEMENT',all:'TOUS',name:'NOM',mode:'MODE',
   noScores:'Aucun score pour l’instant. Sois le premier cœur à battre.',backBtn:'RETOUR',resetBtn:'EFFACER LE CLASSEMENT',resetConfirm:'Effacer tous les scores enregistrés sur cet ordinateur ?',rank:'RANG',againBtn:'REJOUER',menuBtn:'MENU PRINCIPAL',endlessBtn:'MODE INFINI',
   memories:['Je me souviens d’une lumière chaude à une fenêtre.','Quelqu’un chantait dans cette rue.','Il y avait des rires ici. Forts, insouciants.',
     'J’ai été en colère, un jour. Ça voulait dire que je tenais à quelque chose.','Une main sur mon épaule. Une voix : « respire. »','On s’est disputés. Puis on s’est pardonné.',
     'La ville n’avait pas oublié. Elle attendait.','Chaque fenêtre abrite un battement de cœur.','Le silence n’est pas la paix. C’est l’absence.','Maintenant, je me souviens de tout.'],
   endTitle:'LE SILENCE<br>EST BRISÉ',endTag:'LA VILLE SE SOUVIENT',
-  endText:'Dix vagues. La rage et la tendresse, ensemble. La ville se souvient de ce que ressentir veut dire, et elle ne se taira plus.',
+  endText:'Dix vagues. La rage et la grâce, ensemble. La ville se souvient de ce que ressentir veut dire, et elle ne se taira plus.',
   endCta:'[ ENTRÉE OU CLIC · MODE INFINI ]',endCtaTouch:'[ TOUCHE · MODE INFINI ]',endless:'INFINI',
   desc_easy:'Plus de vie, ombres plus lentes, plus faibles et moins nombreuses. Score ×0,6',
   desc_normal:'L’expérience prévue. Score ×1',
@@ -521,45 +559,56 @@ fr:{docTitle:'Kardia — Tuer le silence',logo:'KARDIA',heart:'CŒUR',energy:'É
   hints:{wisp:'<b>NOUVEAU · FEU FOLLET</b> — petit et rapide. Reste en mouvement.',
     brute:'<b>NOUVEAU · BRUTE</b> — lente et solide. Un cœur instable frappe plus fort.',
     weeper:'<b>NOUVEAU · PLEUREUSE</b> — tire des larmes de loin. La Rage détruit ses tirs.',
-    phantom:'<b>NOUVEAU · FANTÔME</b> — invisible et intouchable. Révèle-le avec la Tendresse.',
+    phantom:'<b>NOUVEAU · FANTÔME</b> — invisible et intouchable. Révèle-le avec la Grâce.',
     echo:'<b>NOUVEAU · ÉCHO</b> — copie ta Rage. Traverse son onde rose en élan, ou utilise ta Rage loin de lui.',
     hollow:'<b>NOUVEAU · CREUX</b> — se divise en feux follets quand il meurt.'},
   tut:[['Bouge avec <b>{move}</b>','Esquive les ombres. Reste en vie.'],
     ['Appuie sur <b>{dash}</b> pour un élan','Rien ne peut te toucher pendant l’élan.'],
     ['Des ombres ! Appuie sur <b>{rage}</b> pour la RAGE','Une onde rouge détruit tout ce qui est proche.'],
-    ['Ton cœur est instable : appuie sur <b>{tend}</b>','Chaque Rage pousse la barre du bas vers 100 %. À 100 %, le cœur se brise. La Tendresse l’apaise et rend de l’énergie.'],
-    ['Encore <b>{rage}</b> : alterne pour l’HARMONIE','Alterner Rage et Tendresse augmente tes dégâts et ton score.'],
+    ['Ton cœur est instable : appuie sur <b>{tend}</b>','Chaque Rage pousse la barre du bas vers 100 %. À 100 %, le cœur se brise. La Grâce l’apaise et rend de l’énergie.'],
+    ['Encore <b>{rage}</b> : alterne pour l’HARMONIE','Alterner Rage et Grâce augmente tes dégâts et ton score.'],
     ['Ramasse les fragments lumineux','Ils remplissent la barre du haut. Quand elle est pleine, tu choisis un pouvoir.'],
     ['À toi de jouer.','Survis le plus longtemps possible. Tue le silence.']]}
 };
 const UPG_FR={
-  radius:['Blessure béante','Rayon de l’onde de rage +18 %.'],dmg:['Noyau ardent','Dégâts de la rage +30 %.'],
-  steady:['Veine stable','La rage déstabilise ton cœur 20 % de moins.'],cost:['Fureur économe','La rage coûte 15 % d’énergie en moins.'],
-  ember:['Élan de braise','Traverser les ombres pendant l’élan les brûle.'],bloom:['Large floraison','Champ de tendresse +20 % de taille et +0,8 s de durée.'],
-  mercy:['Pitié rapide','Recharge de la tendresse −15 %.'],calm:['Calme profond','Le champ ralentit encore plus les ombres.'],
-  mend:['Toucher apaisant','Rester dans le champ soigne +3 PV/s.'],thorns:['Amour épineux','Le champ blesse chaque ombre à l’intérieur.'],
-  swift:['Âme vive','Vitesse +8 %, recharge de l’élan −12 %.'],iron:['Cœur de fer','Santé max +25 et soin complet.'],
-  beat:['Battement plus fort','Dégâts du battement +60 %, rayon +15 %.'],battery:['Veine batterie','Énergie max +20, régénération +1,5/s.'],
-  hunger:['Cœur affamé','Attraction des fragments +40 % et fragments plus précieux.']
+  radius:['Blessure béante','Rayon de rage +18 %.'],dmg:['Noyau ardent','Dégâts de rage +30 %.'],
+  steady:['Veine stable','La rage déstabilise −20 %.'],cost:['Fureur économe','Coût de rage −15 %.'],
+  ember:['Élan de braise','Ton élan brûle les ombres.'],bloom:['Large floraison','Champ de grâce plus grand et plus long.'],
+  mercy:['Pitié rapide','Recharge de grâce −15 %.'],calm:['Calme profond','Le champ ralentit plus.'],
+  mend:['Toucher apaisant','Le champ soigne +3/s.'],thorns:['Amour épineux','Le champ blesse les ombres.'],
+  swift:['Âme vive','Vitesse +8 %, élan +12 %.'],iron:['Cœur de fer','Santé max +25, soin total.'],
+  beat:['Battement plus fort','Dégâts du battement +60 %.'],battery:['Veine batterie','Énergie +20, régénération plus rapide.'],
+  hunger:['Cœur affamé','Fragments mieux attirés et plus précieux.']
 };
 let lang='en';
 try{lang=localStorage.getItem('rougeDouceurLang')||((navigator.language||'').toLowerCase().startsWith('fr')?'fr':'en');}catch(e){}
 if(!I18N[lang])lang='en';
 const t=k=>I18N[lang][k]??I18N.en[k];
-const upName=u=>lang==='fr'?UPG_FR[u.id][0]:u.name;
-const upDesc=u=>lang==='fr'?UPG_FR[u.id][1]:u.d;
+const UPG_Q={radius:['+18 %','rage radius','rayon de rage'],dmg:['+30 %','rage damage','dégâts de rage'],steady:['−20 %','rage instability','instabilité de rage'],
+  cost:['−15 %','rage cost','coût de rage'],ember:['✦','burning dash','élan brûlant'],bloom:['+20 %','grace field','champ de grâce'],
+  mercy:['−15 %','grace recharge','recharge de grâce'],calm:['−20 %','shadow speed','vitesse des ombres'],mend:['+3/s','healing field','soin du champ'],
+  thorns:['✦','thorned field','champ épineux'],swift:['+8 %','speed','vitesse'],iron:['+25','max health','santé max'],
+  beat:['+60 %','heartbeat','battement'],battery:['+20','max energy','énergie max'],hunger:['+40 %','fragment pull','attraction']};
+const RARE=[
+  {id:'second',ty:'rare',name:'Second Wind',nfr:'Second souffle',d:'Survive one death with half your health.',dfr:'Survis à une mort avec la moitié de ta santé.',q:['+1','second wind','second souffle'],max:1,apply(){up.lives+=1;}},
+  {id:'harmony2',ty:'rare',name:'Perfect Harmony',nfr:'Harmonie parfaite',d:'Harmony builds twice as fast.',dfr:'L’harmonie monte deux fois plus vite.',q:['×2','harmony','harmonie'],max:1,apply(){up.harmStep=2;}},
+  {id:'twinbeat',ty:'rare',name:'Twin Heart',nfr:'Cœur double',d:'Your heartbeat pulses twice as often.',dfr:'Ton battement frappe deux fois plus souvent.',q:['×2','heartbeat','battement'],max:1,apply(){up.beatInt*=.5;}},
+  {id:'eternal',ty:'rare',name:'Lasting Grace',nfr:'Grâce durable',d:'Your Grace field lasts twice as long.',dfr:'Ton champ de grâce dure deux fois plus longtemps.',q:['×2','grace duration','durée de grâce'],max:1,apply(){up.tendDur*=2;}},
+  {id:'wrath',ty:'rare',name:'Burning Wrath',nfr:'Colère ardente',d:'Rage +60% damage and +15% radius.',dfr:'Rage +60 % de dégâts et +15 % de rayon.',q:['+60 %','rage power','puissance de rage'],max:1,apply(){up.rageDmg*=1.6;up.rageRadius*=1.15;}}];
+const upQ=u=>u.q||UPG_Q[u.id];
+const upBig=u=>upQ(u)[0],upLbl=u=>upQ(u)[lang==='fr'?2:1];
+const upName=u=>u.nfr?(lang==='fr'?u.nfr:u.name):lang==='fr'?UPG_FR[u.id][0]:u.name;
+const upDesc=u=>u.dfr?(lang==='fr'?u.dfr:u.d):lang==='fr'?UPG_FR[u.id][1]:u.d;
 function applyLang(){
   document.documentElement.lang=lang;document.title=t('docTitle');
   document.querySelectorAll('[data-i18n]').forEach(e=>{e.textContent=t(e.dataset.i18n);});
   document.querySelectorAll('[data-i18n-html]').forEach(e=>{e.innerHTML=t(e.dataset.i18nHtml);});
   $('ctrlList').innerHTML=t(touchMode?'ctrlTouch':'controls');
   document.querySelectorAll('#howto [data-i18n-html]').forEach(e=>{e.innerHTML=fillKeys(t(e.dataset.i18nHtml));});
-  $('startCta').textContent=t(touchMode?'startTouch':'start');
-  $('overCta').textContent=t(touchMode?'againTouch':'again');
-  $('resumeCta').textContent=t(touchMode?'resumeTouch':'resume');
-  $('endCta').textContent=t(touchMode?'endCtaTouch':'endCta');
-  $('pname').placeholder=t('namePh');if(!$('board').classList.contains('hidden'))renderBoard();
-  $('upKeys').textContent=touchMode?'':'[1] [2] [3]';
+  const cta=b=>t(padMode?b+'Pad':touchMode?b+'Touch':b);
+  $('startCta').textContent=cta('start');$('overCta').textContent=cta('again');$('resumeCta').textContent=cta('resume');$('endCta').textContent=cta('endCta');
+  $('pname').placeholder=t(padMode?'namePhPad':'namePh');if(!$('board').classList.contains('hidden'))renderBoard();
+  $('upKeys').textContent=touchMode?'':padMode?'✚ · SELECT':'[1] [2] [3]';
   document.querySelectorAll('#langSel button').forEach(b=>b.classList.toggle('on',b.dataset.lang===lang));
   renderTut();updateTutToggle();updateDiffUI();if(mode==='over')overTexts();
   if(mode==='upgrade')renderCards();
@@ -582,27 +631,68 @@ function buildBG(){
   const r=srand(7);
   g.fillStyle='#070405';g.fillRect(0,0,W,H);
   cityWins.length=0;cityLamps.length=0;
-  const cell=110,pad=15;
-  for(let x=-cell;x<W+cell;x+=cell)for(let y=-cell;y<H+cell;y+=cell){
-    const ox=x+(r()*10-5),oy=y+(r()*10-5);
-    cityLamps.push({x:ox+pad*.5,y:oy+pad*.5,thr:.25+r()*.75,col:r()<.6?[255,120,140]:[255,190,150],lit:0,at:0,ph:r()*TAU});
-    if(r()<.1){g.strokeStyle='rgba(140,30,55,.08)';g.lineWidth=1;g.beginPath();g.arc(ox+cell/2,oy+cell/2,cell*.3,0,TAU);g.stroke();
-      g.beginPath();g.arc(ox+cell/2,oy+cell/2,cell*.12,0,TAU);g.stroke();continue;}
-    const subs=r()<.55?1:(r()<.5?2:3),vert=r()<.5,span=cell-pad*2;
-    for(let i=0;i<subs;i++){
-      let bx=ox+pad,by=oy+pad,bw=span,bh=span;
-      if(vert){bw=span/subs-3;bx=ox+pad+i*(span/subs);}else{bh=span/subs-3;by=oy+pad+i*(span/subs);}
-      const sh=7+(r()*7|0);
-      g.fillStyle=`rgb(${sh+4},${sh-3},${sh-1})`;g.fillRect(bx,by,bw,bh);
-      g.strokeStyle='rgba(0,0,0,.65)';g.lineWidth=1;g.strokeRect(bx+.5,by+.5,bw-1,bh-1);
-      g.fillStyle='rgba(255,200,210,.018)';g.fillRect(bx,by,bw,2);
-      if(r()<.45){g.fillStyle='rgba(0,0,0,.35)';g.fillRect(bx+bw*(.15+r()*.3),by+bh*(.15+r()*.3),bw*.28,bh*.28);}
-      if(r()<.09){g.fillStyle='rgba(210,20,50,.45)';g.fillRect(bx+r()*(bw-3),by+r()*(bh-3),2,2);}
-      const nw=1+(r()*3|0);
-      for(let k=0;k<nw;k++){const ww=2+(r()*3|0),wh=2+(r()*2|0),cr=r();const col=cr<.5?[255,70,100]:cr<.8?[255,160,185]:[255,125,85];
-        cityWins.push({x:bx+3+r()*Math.max(1,bw-ww-6),y:by+3+r()*Math.max(1,bh-wh-6),w:ww,h:wh,thr:.02+r()*.98,col,css:rgb(col),lit:0,at:0,fl:r()<.3?3+r()*8:0,ph:r()*TAU});}
+  // ================= New York: Manhattan grid seen from above =================
+  // wide avenues one way, narrow streets the other, long blocks; Broadway cuts across; an open square in the centre
+  const GROUND='#070405',land=W>=H,UX=land?W:H,VX=land?H:W;
+  const AV=24,ST=12,aSp=land?236:200,sSp=land?94:150;   // avenue / street width and spacing
+  const S_=(u,v,du,dv)=>land?[u,v,du,dv]:[v,u,dv,du],Pt=(u,v)=>land?[u,v]:[v,u];
+  const u0s=[],v0s=[];for(let u=(UX/2)%aSp-aSp;u<UX+aSp;u+=aSp)u0s.push(u);for(let v=(VX/2)%sSp-sSp;v<VX+sSp;v+=sSp)v0s.push(v);
+  const bw0=[W*.2,-60],bw1=[W*.84,H+60];   // Broadway: a diagonal across the grid
+  const bwD=(x,y)=>{const dx=bw1[0]-bw0[0],dy=bw1[1]-bw0[1],L=Math.hypot(dx,dy);return Math.abs((x-bw0[0])*dy-(y-bw0[1])*dx)/L;};
+  const inSq=()=>false;   // no open square: blocks fill the centre
+  // street markings (drawn first, buildings go on top)
+  g.strokeStyle='rgba(255,190,140,.04)';g.lineWidth=1;g.setLineDash([9,12]);
+  for(const u of u0s){const [x0,y0]=Pt(u,0),[x1,y1]=Pt(u,VX);g.beginPath();g.moveTo(x0,y0);g.lineTo(x1,y1);g.stroke();}   // avenue centre lines
+  g.setLineDash([]);g.fillStyle='rgba(255,200,170,.035)';
+  for(const u of u0s)for(const v of v0s)for(const sd of [-1,1])for(let k=0;k<4;k++){const [x,y,w,h]=S_(u+sd*(AV/2+3)-1.5+sd*0,v-ST/2+2+k*2.6,3,1.4);g.fillRect(x,y,w,h);}   // crosswalks
+  // ---- lots: brownstone rows, mid-rises with water towers, skyscrapers with setbacks
+  const B=[];
+  const lot=(u,v,du,dv,ht,kind)=>{const [x,y,w,h]=S_(u,v,du,dv);if(w<5||h<5)return;B.push({x,y,w,h,ht,kind});};
+  for(const u0 of u0s)for(const v0 of v0s){
+    const bu=u0+AV/2,bv=v0+ST/2,L=aSp-AV,D=sSp-ST;
+    if(r()<.55){   // brownstone block: narrow row houses back to back, a mid-rise on each corner
+      const cw=Math.min(L*.22,28+r()*22);lot(bu,bv,cw,D,2+(r()*2|0),'mid');lot(bu+L-cw,bv,cw,D,2+(r()*2|0),'mid');
+      const dep=D*.42;for(const row of [0,1]){let u=bu+cw+2;while(u<bu+L-cw-6){const w=Math.min(10+r()*7,bu+L-cw-2-u);lot(u,row?bv+D-dep:bv,w-1.2,dep,1,'brown');u+=w;}}
+    }else{   // tall block: skyscrapers and mid-rises side by side
+      let u=bu;while(u<bu+L-8){const w=Math.min(36+r()*58,bu+L-u);if(w<14){u+=w;continue;}
+        const tall=r()<.45;if(!tall&&r()<.35){lot(u,bv,w-2,D*.5-1,2,'mid');lot(u,bv+D*.5+1,w-2,D*.5-1,2+(r()*2|0),'mid');}
+        else lot(u,bv,w-2,D,tall?4+(r()*3|0):2+(r()*2|0),tall?'tower':'mid');u+=w;}
     }
   }
+  const keep=b=>!inSq(b.x+b.w/2,b.y+b.h/2,-4);
+  // pass 1: shadows (taller buildings throw longer shadows toward the bottom-right)
+  for(const b of B){if(!keep(b))continue;const sx=2+b.ht*2.3,sy=3+b.ht*2.7;g.fillStyle=`rgba(0,0,0,${.3+b.ht*.035})`;g.fillRect(b.x+sx,b.y+sy,b.w,b.h);}
+  // pass 2: roofs
+  const addWins=(x,y,w,h,n)=>{for(let k=0;k<n;k++){const ww=2+(r()*3|0),wh=2+(r()*2|0),cr=r();const col=cr<.5?[255,190,105]:cr<.8?[255,218,160]:[240,160,80];   // warm amber windows (game pieces stay red / pink)
+    cityWins.push({x:x+2+r()*Math.max(1,w-ww-4),y:y+2+r()*Math.max(1,h-wh-4),w:ww,h:wh,thr:.02+r()*.98,col,css:rgb(col),lit:0,at:0,fl:r()<.3?3+r()*8:0,ph:r()*TAU});}};
+  const edges=(x,y,w,h)=>{g.fillStyle='rgba(255,210,180,.055)';g.fillRect(x,y,w,1.6);g.fillStyle='rgba(255,210,180,.035)';g.fillRect(x,y,1.3,h);
+    g.fillStyle='rgba(0,0,0,.45)';g.fillRect(x,y+h-1.6,w,1.6);g.fillStyle='rgba(0,0,0,.32)';g.fillRect(x+w-1.3,y,1.3,h);g.strokeStyle='rgba(0,0,0,.6)';g.lineWidth=1;g.strokeRect(x+.5,y+.5,w-1,h-1);};
+  const waterTower=(x,y)=>{g.fillStyle='rgba(0,0,0,.55)';g.beginPath();g.arc(x+2.5,y+3,3.4,0,TAU);g.fill();g.fillStyle='rgb(28,17,15)';g.beginPath();g.arc(x,y,3.4,0,TAU);g.fill();
+    g.strokeStyle='rgba(255,205,170,.09)';g.beginPath();g.arc(x,y,3.4,0,TAU);g.stroke();g.beginPath();g.arc(x,y,1.3,0,TAU);g.stroke();};
+  for(const b of B){if(!keep(b))continue;const {x,y,w,h,ht}=b;
+    const sh=b.kind==='brown'?6+(r()*3|0):5+ht*.8+r()*3;g.fillStyle=`rgb(${sh+5|0},${sh-3|0},${sh-1|0})`;g.fillRect(x,y,w,h);edges(x,y,w,h);
+    if(b.kind==='brown'){if(r()<.5){g.fillStyle='rgba(0,0,0,.4)';g.fillRect(x+w*.3,y+h*.2,2,2);}if(r()<.16)addWins(x,y,w,h,1);continue;}
+    if(b.kind==='tower'){const n=Math.min(3,ht-2);let ix=x,iy=y,iw=w,ih=h;   // setbacks: the "wedding cake" top of a New York skyscraper
+      for(let i=0;i<n;i++){const st=Math.max(3,Math.min(iw,ih)*.16);ix+=st;iy+=st;iw-=st*2;ih-=st*2;if(iw<6||ih<6)break;
+        g.fillStyle='rgba(0,0,0,.35)';g.fillRect(ix+2,iy+2.5,iw,ih);g.fillStyle=`rgba(255,215,190,${.018+i*.01})`;g.fillRect(ix,iy,iw,ih);edges(ix,iy,iw,ih);}
+      if(ht>=6&&iw>3){g.fillStyle='rgba(255,200,170,.18)';g.fillRect(ix+iw/2-.8,iy+ih/2-.8,1.6,1.6);}   // spire
+      addWins(x,y,w,h,Math.max(1,Math.min(3,Math.round(w*h/2800))));continue;}
+    // mid-rise: rooftop units, cabins, and the famous wooden water towers
+    for(let k=0;k<1+(r()*3|0);k++){const uw=3+r()*5,uh=3+r()*4,ux=x+2+r()*Math.max(1,w-uw-4),uy=y+2+r()*Math.max(1,h-uh-4);
+      g.fillStyle='rgba(0,0,0,.35)';g.fillRect(ux+1.5,uy+2,uw,uh);g.fillStyle='rgba(255,210,185,.04)';g.fillRect(ux,uy,uw,uh);}
+    if(w>11&&h>11&&r()<.5)waterTower(x+5+r()*(w-10),y+5+r()*(h-10));
+    addWins(x,y,w,h,r()<.6?Math.max(1,Math.min(2,Math.round(w*h/3200))):0);
+  }
+  // street lamps at the avenue corners
+  for(const u of u0s)for(const v of v0s){const [lx,ly]=Pt(u+AV/2-2,v+ST/2+2);if(!inSq(lx,ly,6))cityLamps.push({x:lx,y:ly,thr:.25+r()*.75,col:r()<.6?[255,185,100]:[255,215,155],lit:0,at:0,ph:r()*TAU});}
+  // Broadway: cuts diagonally through the grid (and the buildings), with its own lamps
+  g.lineCap='butt';g.strokeStyle=GROUND;g.lineWidth=22;g.beginPath();g.moveTo(...bw0);g.lineTo(...bw1);g.stroke();
+  for(const o of [-11,11]){const L=Math.hypot(bw1[0]-bw0[0],bw1[1]-bw0[1]),nx=-(bw1[1]-bw0[1])/L*o,ny=(bw1[0]-bw0[0])/L*o;
+    g.strokeStyle=o<0?'rgba(255,205,175,.05)':'rgba(0,0,0,.5)';g.lineWidth=1.5;g.beginPath();g.moveTo(bw0[0]+nx,bw0[1]+ny);g.lineTo(bw1[0]+nx,bw1[1]+ny);g.stroke();}
+  g.strokeStyle='rgba(255,190,140,.045)';g.lineWidth=1;g.setLineDash([9,12]);g.beginPath();g.moveTo(...bw0);g.lineTo(...bw1);g.stroke();g.setLineDash([]);
+  {const L=Math.hypot(bw1[0]-bw0[0],bw1[1]-bw0[1]);for(let d=60;d<L;d+=130){const k=d/L,x=bw0[0]+(bw1[0]-bw0[0])*k,y=bw0[1]+(bw1[1]-bw0[1])*k;if(x>0&&x<W&&y>0&&y<H&&!inSq(x,y,10))cityLamps.push({x:x+8,y:y-5,thr:.15+r()*.7,col:[255,205,140],lit:0,at:0,ph:r()*TAU});}}
+  // no window may sit on Broadway
+  for(let i=cityWins.length-1;i>=0;i--){const w=cityWins[i];if(bwD(w.x,w.y)<14)cityWins.splice(i,1);}
   g.strokeStyle='rgba(120,20,40,.13)';g.lineWidth=1;
   for(let i=0;i<16;i++){let x=r()*W,y=r()*H;g.beginPath();g.moveTo(x,y);for(let j=0;j<12;j++){x+=r()*40-20;y+=r()*40-20;g.lineTo(x,y);}g.stroke();}
   for(const [cvs,col,a0] of [[vig,'0,0,0',.9],[rvig,'225,22,60',.75]]){
@@ -700,7 +790,7 @@ const ET={
 };
 function makeEnemy(type,x,y){
   const t=ET[type],hpS=1+(wave-1)*.09,spS=Math.min(1.6,1+(wave-1)*.035);
-  const hp=t.hp*hpS*(type==='boss'?1+wave*.18:1)*D.hp;
+  const hp=t.hp*hpS*(type==='boss'?.6*(1+Math.min(wave,10)*.18+Math.max(0,wave-10)*.08):1)*D.hp;   // bosses: 40 % less health, slower growth after wave 10
   return{type,x,y,vx:0,vy:0,kx:0,ky:0,r:t.r,hp,maxHp:hp,spd:t.spd*spS*D.spd*rand(.9,1.1),dmg:t.dmg*D.dmg,seed:rand(0,100),
     flash:0,slowT:0,shootT:rand(1.5,3),atkT:3.5,atkPat:0,spawnIn:.4,dead:false,t:0,dashHit:-1,thornT:0,charge:0,revealT:0};
 }
@@ -721,18 +811,20 @@ function spawnPortal(type,x,y,dur=.8){
   }
   portals.push({x,y,t:0,dur,type});
 }
+const EXPOSE_T=2,EXPOSE_MUL=2.5;
+function exposeBoss(e){e.exposedT=EXPOSE_T;txt(e.x,e.y-e.r-22,t('exposed'),'#ffffff',15,1.1);}
 function fireBullet(x,y,a,s){s*=D.bullet;bullets.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,r:6,life:8,dead:false});}
 function bossAttack(e){
   const p2=e.hp<e.maxHp*.5;e.atkPat++;
-  if(e.atkPat%3===0){for(let i=0;i<(p2?4:3);i++){const a=rand(0,TAU);spawnPortal(Math.random()<.5?'shade':'wisp',clamp(e.x+Math.cos(a)*90,30,W-30),clamp(e.y+Math.sin(a)*90,30,H-30),.6);}}
+  if(e.atkPat%3===0){for(let i=0;i<(p2?3:2);i++){const a=rand(0,TAU);spawnPortal(Math.random()<.5?'shade':'wisp',clamp(e.x+Math.cos(a)*90,30,W-30),clamp(e.y+Math.sin(a)*90,30,H-30),.6);}}
   else{const n=p2?22:15,off=rand(0,TAU);for(let i=0;i<n;i++)fireBullet(e.x,e.y,off+i/n*TAU,p2?165:135);
     if(p2){const a=Math.atan2(player.y-e.y,player.x-e.x);for(let i=-1;i<=1;i++)fireBullet(e.x,e.y,a+i*.18,230);}
     emit(e.x,e.y,30,{col:C.red,smin:80,smax:260,lmin:.3,lmax:.6});sfxBudget++;sfx.shoot();}
-  e.atkT=(p2?2.1:3)*D.fire;shake(5);
+  e.atkT=(p2?2.1:3)*D.fire;shake(5);exposeBoss(e);   // after its attack the boss cracks open
 }
 /* ================= final boss: THE GREAT SILENCE (wave 10) ================= */
 function makeFinal(e){
-  e.final=true;e.r=72;e.hp=e.maxHp=260*D.hp*(1+(up.rageDmg/3-1)*.5);
+  e.final=true;e.r=72;e.hp=e.maxHp=170*D.hp*(1+(up.rageDmg/3-1)*.5);
   e.phase=1;e.invulnT=0;e.unveilT=0;e.veilMsgT=0;e.lungeT=0;e.lungeTele=0;e.lungeA=0;e.atkT=2.5;e.orb=Math.random()<.5?1:-1;e.mvx=0;e.mvy=0;
 }
 function finalSummon(e,types){types.forEach((ty,i)=>{const a=i/types.length*TAU+rand(-.3,.3);spawnPortal(ty,clamp(e.x+Math.cos(a)*170,40,W-40),clamp(e.y+Math.sin(a)*170,40,H-40),.7);});}
@@ -743,7 +835,7 @@ function finalAttack(e){
   if(ph===1){if(pat===0)finalRing(e,18,140);else if(pat===1)finalBurst(e,aim,5,.16,220);else finalSummon(e,['shade','wisp','shade']);e.atkT=2.4;}
   else if(ph===2){if(pat===0){finalRing(e,16,120);finalRing(e,16,170,Math.PI/16);}else if(pat===1)finalBurst(e,aim,7,.13,240);else finalSummon(e,['phantom','echo']);e.atkT=2.1;}
   else{if(pat===0){finalRing(e,24,150);finalRing(e,24,190,Math.PI/24);}else if(pat===1){e.lungeTele=.8;e.lungeA=aim;}else if(pat===2){finalBurst(e,aim,9,.11,260);finalRing(e,12,130);}else finalSummon(e,['phantom','echo','wisp']);e.atkT=1.7;}
-  e.atkT*=D.fire;shake(5);emit(e.x,e.y,30,{col:C.red,smin:80,smax:260,lmin:.3,lmax:.6});sfxBudget++;sfx.shoot();
+  e.atkT*=D.fire;shake(5);emit(e.x,e.y,30,{col:C.red,smin:80,smax:260,lmin:.3,lmax:.6});sfxBudget++;sfx.shoot();if(!finalShielded(e))exposeBoss(e);
 }
 function finalPhase(e,np){
   e.phase=np;e.invulnT=1.4;e.unveilT=0;e.atkT=2;e.lungeT=0;e.lungeTele=0;e.orb=-e.orb;
@@ -783,6 +875,7 @@ function hurtEnemy(e,dmg,kx,ky,silent){
   if(e.type==='phantom'&&e.revealT<=0){if(!silent)emit(e.x,e.y,2,{col:C.pink,smin:20,smax:60,lmin:.2,lmax:.4,zmin:1,zmax:2,alpha:.5});return;}
   if(e.final&&finalShielded(e)){if(!silent){emit(e.x,e.y,3,{col:C.pink,smin:30,smax:90,lmin:.2,lmax:.4,zmin:1,zmax:2});
     if(e.veilMsgT<=0&&e.invulnT<=0){e.veilMsgT=2;txt(e.x,e.y-e.r-16,t('veiled'),'#e896ac',13,1);}}return;}
+  if(e.exposedT>0)dmg*=EXPOSE_MUL;   // exposed boss: strike now!
   e.hp-=dmg;if(e.final){const fl=e.phase===1?e.maxHp*.66:e.phase===2?e.maxHp*.33:0;if(e.hp<fl&&fl>0)e.hp=fl-.01;}
   const m=ET[e.type].mass;e.kx+=kx/m;e.ky+=ky/m;
   if(!silent){e.flash=.1;emit(e.x,e.y,4,{col:C.red,smin:60,smax:220,lmin:.15,lmax:.35,zmin:1,zmax:2.4});sfx.hit();}
@@ -796,26 +889,29 @@ function killEnemy(e){
   emit(e.x,e.y,e.type==='boss'?60:12,{col:C.dark,add:false,smin:20,smax:e.r*6,lmin:.4,lmax:1.1,zmin:e.r*.25,zmax:e.r*.6,drag:2.5,alpha:.9});
   emit(e.x,e.y,e.type==='boss'?120:14,{col:e.slowT>0?C.pink:C.red,smin:60,smax:e.type==='boss'?600:320,lmin:.25,lmax:.7,zmin:1,zmax:3});
   emit(e.x,e.y,4,{col:et.eye,smin:30,smax:120,lmin:.4,lmax:.8,zmin:1.5,zmax:2.5});
-  const n=et.frag;for(let i=0;i<n;i++){const a=rand(0,TAU),s=rand(40,e.type==='boss'?380:140);frags.push({x:e.x,y:e.y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,t:rand(0,10),life:16,val:up.fragVal,dead:false});}
+  const n=et.frag;for(let i=0;i<n;i++){const a=rand(0,TAU),s=rand(40,e.type==='boss'?380:140);frags.push({x:e.x,y:e.y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,t:rand(0,10),life:tut.active?16:D.fragLife,val:up.fragVal,dead:false});}
   shake(e.type==='boss'?26:e.type==='brute'?7:2.5);sfx.kill();
   if(e.type==='hollow'){for(let i=0;i<3;i++){const w=makeEnemy('wisp',e.x+rand(-8,8),e.y+rand(-8,8));w.spawnIn=0;const a=i/3*TAU;w.kx=Math.cos(a)*260;w.ky=Math.sin(a)*260;enemies.push(w);}}
+  if(e.type==='boss'){rumble(700,1,.9);pendingRare++;}   // every boss leaves a rare Resonance
   if(e.final)finalDeath(e);
   else if(e.type==='boss'){hitStop=.35;flashR=.8;flashP=.6;banner(t('shattered'),t('remembers'));rings.push({x:e.x,y:e.y,r:0,maxR:Math.max(W,H),dmg:0,t:0,dur:1.2,hit:new Set(),kb:0,kind:'nova'});}
 }
 function addScore(base,x,y){const v=Math.round(base*mult*D.score*(1+Math.min(combo,50)*.02));score+=v;if(x!=null)txt(x,y-10,'+'+v,harmony>=3?'#e896ac':'#c9a6ae',harmony>=3?13:11,.7);}
 
 /* ================= player ================= */
-function baseUp(){return{rageRadius:150,rageDmg:3,rageCost:30,rageInstab:24,tendRadius:135,tendDur:3.4,tendCd:6.5,tendCalm:42,slow:.42,
+function baseUp(){return{harmStep:1,lives:0,rageRadius:150,rageDmg:3,rageCost:30,rageInstab:24,tendRadius:135,tendDur:3.4,tendCd:6.5,tendCalm:42,slow:.42,
   speed:235,dashCd:.85,magnet:120,fragVal:1,beatDmg:.6,beatR:62,beatInt:1.15,maxEnergy:100,regen:4,mend:3,thorns:0,ember:0,taken:{}};}
 function newPlayer(){return{x:W/2,y:H/2,vx:0,vy:0,r:13,hp:100,maxHp:100,energy:100,instab:0,dashT:0,dashCd:0,dashId:0,iframes:0,
   rageCd:0,tendCd:0,soft:0,stun:0,beatT:.6,sinceBeat:9,sinceRage:9,fx:1,fy:0,trail:[]};}
 const keys={};
 const stick={id:null,ox:0,oy:0,x:0,y:0};
+const pad={x:0,y:0};
 function inputDir(){
   let ix=0,iy=0;
   // physical key codes: WASD on QWERTY = ZQSD on AZERTY
   if(keys.KeyA||keys.ArrowLeft)ix--;if(keys.KeyD||keys.ArrowRight)ix++;if(keys.KeyW||keys.ArrowUp)iy--;if(keys.KeyS||keys.ArrowDown)iy++;
   if(Math.hypot(stick.x,stick.y)>.15){ix+=stick.x;iy+=stick.y;}
+  if(Math.hypot(pad.x,pad.y)>.15){ix+=pad.x;iy+=pad.y;}
   const l=Math.hypot(ix,iy);if(l>1){ix/=l;iy/=l;}return[ix,iy,Math.min(1,l)];
 }
 function dash(){
@@ -826,7 +922,7 @@ function dash(){
 }
 function registerAbility(k){
   const p=player;
-  if(lastAb&&lastAb!==k){harmony=Math.min(5,harmony+1);txt(p.x,p.y-34,t('harmonyN')+' '+harmony,'#e896ac',12,1);}
+  if(lastAb&&lastAb!==k){harmony=Math.min(5,harmony+up.harmStep);txt(p.x,p.y-34,t('harmonyN')+' '+harmony,'#e896ac',12,1);}
   else if(lastAb===k&&harmony>0){harmony=Math.max(0,harmony-2);txt(p.x,p.y-34,t('discord'),'#8a6a73',11,.8);}
   lastAb=k;harmT=7;mult=1+harmony*.25;
 }
@@ -841,7 +937,7 @@ function castRage(){
   emit(p.x,p.y,40+inst*.6|0,{col:inst>75?C.white:C.red,smin:150,smax:radius*3.2,lmin:.25,lmax:.55,zmin:1.5,zmax:4});
   emit(p.x,p.y,18,{col:C.ember,smin:40,smax:140,lmin:.4,lmax:.9,zmin:2,zmax:5});
   shake(7+inst/9);hitStop=.04+inst/2500;flashR=Math.max(flashR,.18+inst/400);
-  sfx.rage(power);
+  sfx.rage(power);rumble(120+inst*2,.35+inst/200,.6);
   p.instab+=up.rageInstab;registerAbility('rage');tutEvent('rage');
   for(const e of enemies)if(e.type==='echo'&&e.spawnIn<=0&&e.charge<=0&&Math.hypot(e.x-p.x,e.y-p.y)<460)e.charge=.7;
   if(p.instab>=100)fracture();
@@ -854,7 +950,7 @@ function fracture(){
   emit(p.x,p.y,40,{col:C.red,smin:50,smax:300,lmin:.5,lmax:1.2,zmin:2,zmax:5,g:120});
   rings.push({x:p.x,y:p.y,r:0,maxR:200,dmg:4,t:0,dur:.3,hit:new Set(),kb:700,kind:'rage',power:2});
   harmony=0;mult=1;lastAb=null;
-  sfx.fracture();
+  sfx.fracture();rumble(500,1,1);
   if(p.hp<=0)die();
 }
 function castTender(){
@@ -870,12 +966,15 @@ function hurtPlayer(d){
   const p=player;if(p.iframes>0||mode!=='play')return;
   p.hp-=d;p.iframes=.75;if(combo>=5)txt(p.x,p.y-48,t('comboLost'),'#8a6a73',11,.8);combo=0;comboT=0;flashR=Math.max(flashR,.7);shake(11);hitStop=.06;
   emit(p.x,p.y,22,{col:C.red,smin:80,smax:300,lmin:.3,lmax:.6});
-  sfx.hurt();
+  sfx.hurt();rumble(220,.9,.6);
   if(p.hp<=0)die();
 }
 function die(){
   if(mode!=='play')return;
-  const p=player;p.hp=0;mode='dying';deathT=0;
+  const p=player;
+  if(up.lives>0){up.lives--;p.hp=Math.round(p.maxHp*.5);p.instab=Math.min(p.instab,30);p.iframes=2.5;flashP=1;shake(14);sfx.upg();   // Second wind
+    emit(p.x,p.y,90,{col:C.pink,smin:80,smax:520,lmin:.5,lmax:1.2,zmin:1.5,zmax:4});txt(p.x,p.y-48,t('secondWind'),'#f3c969',16,1.8);return;}
+  p.hp=0;mode='dying';deathT=0;
   emit(p.x,p.y,160,{col:C.red,smin:60,smax:700,lmin:.6,lmax:1.8,zmin:1.5,zmax:5,drag:1.6});
   emit(p.x,p.y,60,{col:C.pink,smin:20,smax:300,lmin:.8,lmax:2,zmin:1,zmax:3,drag:1.2});
   shake(30);flashR=1;sfx.over();$('touch').classList.add('hidden');
@@ -909,10 +1008,10 @@ function updatePlayer(dt){
 
 /* ================= world update ================= */
 function startWave(n){
-  wave=n;WS.clear=false;WS.boss=n%5===0;WS.toSpawn=Math.round((WS.boss?3+n:6+Math.floor(n*3.2))*D.count);WS.spawnT=1.4;magnetAll=false;
+  wave=n;WS.clear=false;WS.boss=n%5===0;WS.toSpawn=Math.round((WS.boss?1.5+n*.5:6+Math.floor(n*3.2))*D.count);WS.spawnT=1.4;magnetAll=false;
   const lines=t('lines');
   if(WS.boss){const fin=n===10&&!endShown;spawnPortal('boss',W/2,Math.max(80,H*.2),fin?3:2.2);
-    if(fin){portals[portals.length-1].final=true;WS.toSpawn=Math.round(4*D.count);}
+    if(fin){portals[portals.length-1].final=true;WS.toSpawn=Math.round(2*D.count);}
     banner(t('wave')+' '+n,t(fin?'finalLine':'bossLine'));sfx.boss();}
   else{banner(t('wave')+' '+n,lines[(n-1)%lines.length]);sfx.wave();}
 }
@@ -926,7 +1025,7 @@ function updateWave(dt){
       WS.spawnT=Math.max(.22,1.15-wave*.07)*D.spawn*rand(.6,1.3);
     }
   }else if(enemies.length===0&&portals.length===0){
-    WS.clear=true;WS.breakT=wave===10&&!endShown?5.5:4.2;const bonus=Math.round(wave*50*D.score);score+=bonus;magnetAll=true;
+    WS.clear=true;WS.breakT=wave===10&&!endShown?5.5:4.2;const bonus=Math.round(wave*50*D.score);score+=bonus;magnetAll=!!D.vacuum;
     player.hp=Math.min(player.maxHp,player.hp+D.heal);
     reviveCity();
     banner(t('broken'),cleared<=10?t('memories')[cleared-1]:t('steadies'));txt(player.x,player.y-44,'+'+bonus,'#e896ac',14,1.4);sfx.clear();
@@ -947,7 +1046,7 @@ function update(dt,dying){
     if(Math.random()<dt*30){const a=rand(0,TAU),rr=Math.sqrt(Math.random())*f.r;emit(f.x+Math.cos(a)*rr,f.y+Math.sin(a)*rr,1,{col:Math.random()<.5?C.pink:C.white,ang:-Math.PI/2,spread:.4,smin:10,smax:45,lmin:.6,lmax:1.4,zmin:1,zmax:2.4,drag:.5,alpha:.8});}
     for(const e of enemies){const d=Math.hypot(e.x-f.x,e.y-f.y);if(d<f.r+e.r){e.slowT=.15;
       if(e.type==='phantom'){if(e.revealT<=0)emit(e.x,e.y,12,{col:C.pink,smin:30,smax:140,lmin:.3,lmax:.6});e.revealT=3;}
-      if(e.final&&e.phase>=2&&e.invulnT<=0){if(e.unveilT<=0){txt(e.x,e.y-e.r-18,t('veilBroken'),'#ffffff',15,1.2);emit(e.x,e.y,60,{col:C.pink,smin:80,smax:400,lmin:.3,lmax:.8});shake(10);sfx.combo();}e.unveilT=e.phase===3?5:4.5;}
+      if(e.final&&e.phase>=2&&e.invulnT<=0){if(e.unveilT<=0){txt(e.x,e.y-e.r-18,t('veilBroken'),'#ffffff',15,1.2);emit(e.x,e.y,60,{col:C.pink,smin:80,smax:400,lmin:.3,lmax:.8});shake(10);sfx.combo();}e.unveilT=e.phase===3?6.5:6;}
       if(up.thorns>0){e.thornT-=dt;if(e.thornT<=0){e.thornT=.4;hurtEnemy(e,up.thorns*.4,0,0,true);emit(e.x,e.y,2,{col:C.pink,smin:20,smax:60,lmin:.2,lmax:.4,zmin:1,zmax:2});}}}}
     for(const b of bullets){if(Math.hypot(b.x-f.x,b.y-f.y)<f.r)b.slow=.12;}
     if(!dying&&Math.hypot(p.x-f.x,p.y-f.y)<f.r){p.energy=Math.min(up.maxEnergy,p.energy+16*dt);p.instab=Math.max(0,p.instab-12*dt);p.hp=Math.min(p.maxHp,p.hp+up.mend*dt);}
@@ -971,7 +1070,7 @@ function update(dt,dying){
         e.shootT-=dt*sf;if(e.shootT<=0&&e.spawnIn<=0&&onScreen(e)&&!dying){e.shootT=rand(2.2,3.1)*D.fire;fireBullet(e.x,e.y,Math.atan2(dy,dx),175);sfx.shoot();
           emit(e.x,e.y,6,{col:C.pink,ang:Math.atan2(dy,dx),spread:.5,smin:40,smax:120,lmin:.2,lmax:.4,zmin:1,zmax:2});}
         break;}
-      case'boss':{if(e.final){finalUpdate(e,dt,d,dx,dy,dying);mx=e.mvx;my=e.mvy;}else if(!dying){e.atkT-=dt*sf;if(e.atkT<=0)bossAttack(e);}break;}
+      case'boss':{if(e.exposedT>0)e.exposedT-=dt;if(e.final){finalUpdate(e,dt,d,dx,dy,dying);mx=e.mvx;my=e.mvy;}else if(!dying){e.atkT-=dt*sf;if(e.atkT<=0)bossAttack(e);}break;}
     }
     const ml=Math.hypot(mx,my)||1,k=Math.min(1,dt*5);
     e.vx+=(mx/ml*sp-e.vx)*k;e.vy+=(my/ml*sp-e.vy)*k;
@@ -1021,12 +1120,13 @@ function update(dt,dying){
   frags=frags.filter(g=>!g.dead);
   updateFx(dt);
   if(shakeA>0)shakeA=Math.max(0,shakeA-dt*60);
-  if(!dying&&pendingUp>0&&mode==='play')openUpgrade();
+  if(!dying&&(pendingUp>0||pendingRare>0)&&mode==='play'&&WS.clear&&WS.breakT<1.35&&!tut.active)openUpgrade();   // only in the calm break after a wave, once its banner + memory line are gone
 }
 function collect(g){
   const p=player;const v=Math.round(5*g.val*mult*D.score);score+=v;res+=g.val;p.energy=Math.min(up.maxEnergy,p.energy+3);
   emit(g.x,g.y,6,{col:C.pink,smin:30,smax:120,lmin:.2,lmax:.45,zmin:1,zmax:2.2});sfx.pick();
-  while(res>=resNeed){res-=resNeed;resNeed=Math.round(resNeed*1.32+4);pendingUp++;}
+  const had=pendingUp;while(res>=resNeed){res-=resNeed;resNeed=Math.round(resNeed*1.32+4);pendingUp++;}
+  if(pendingUp>had&&!WS.clear&&!tut.active)toast(t('resReady'));   // earned mid-fight: chosen after the wave
 }
 function updateFx(dt){
   life+=(lifeT-life)*Math.min(1,dt*1.2);
@@ -1044,55 +1144,58 @@ function updateFx(dt){
 
 /* ================= upgrades ================= */
 const UPG=[
-  {id:'radius',ty:'rage',name:'Widening Wound',d:'Rage shockwave radius +18%.',max:5,apply(){up.rageRadius*=1.18;}},
+  {id:'radius',ty:'rage',name:'Widening Wound',d:'Rage radius +18%.',max:5,apply(){up.rageRadius*=1.18;}},
   {id:'dmg',ty:'rage',name:'Searing Core',d:'Rage damage +30%.',max:6,apply(){up.rageDmg*=1.3;}},
-  {id:'steady',ty:'rage',name:'Steady Vein',d:'Rage destabilizes your heart 20% less.',max:4,apply(){up.rageInstab*=.8;}},
-  {id:'cost',ty:'rage',name:'Cheap Fury',d:'Rage costs 15% less energy.',max:4,apply(){up.rageCost*=.85;}},
-  {id:'ember',ty:'rage',name:'Ember Dash',d:'Dashing through shadows burns them.',max:4,apply(){up.ember+=1.6;}},
-  {id:'bloom',ty:'tender',name:'Wide Bloom',d:'Tenderness field +20% size and +0.8s duration.',max:5,apply(){up.tendRadius*=1.2;up.tendDur+=.8;}},
-  {id:'mercy',ty:'tender',name:'Quick Mercy',d:'Tenderness cooldown −15%.',max:5,apply(){up.tendCd*=.85;}},
-  {id:'calm',ty:'tender',name:'Deep Calm',d:'The field slows shadows even harder.',max:3,apply(){up.slow=Math.max(.15,up.slow-.09);}},
-  {id:'mend',ty:'tender',name:'Mending Touch',d:'Standing in the field heals +3 HP/s.',max:4,apply(){up.mend+=3;}},
-  {id:'thorns',ty:'tender',name:'Thorned Love',d:'The field wounds every shadow inside it.',max:4,apply(){up.thorns+=1.4;}},
-  {id:'swift',ty:'heart',name:'Swift Soul',d:'Move speed +8%, dash cooldown −12%.',max:4,apply(){up.speed*=1.08;up.dashCd*=.88;}},
-  {id:'iron',ty:'heart',name:'Iron Heart',d:'Max health +25 and heal completely.',max:5,apply(){player.maxHp+=25;player.hp=player.maxHp;}},
-  {id:'beat',ty:'heart',name:'Louder Heartbeat',d:'Heartbeat pulse damage +60%, radius +15%.',max:5,apply(){up.beatDmg*=1.6;up.beatR*=1.15;}},
-  {id:'battery',ty:'heart',name:'Vein Battery',d:'Max energy +20, regeneration +1.5/s.',max:4,apply(){up.maxEnergy+=20;up.regen+=1.5;}},
-  {id:'hunger',ty:'heart',name:'Hungry Heart',d:'Fragment pull range +40% and fragments are worth more.',max:3,apply(){up.magnet*=1.4;up.fragVal+=.5;}},
+  {id:'steady',ty:'rage',name:'Steady Vein',d:'Rage strains your heart −20%.',max:4,apply(){up.rageInstab*=.8;}},
+  {id:'cost',ty:'rage',name:'Cheap Fury',d:'Rage cost −15%.',max:4,apply(){up.rageCost*=.85;}},
+  {id:'ember',ty:'rage',name:'Ember Dash',d:'Your dash burns shadows.',max:4,apply(){up.ember+=1.6;}},
+  {id:'bloom',ty:'tender',name:'Wide Bloom',d:'Bigger, longer Grace field.',max:5,apply(){up.tendRadius*=1.2;up.tendDur+=.8;}},
+  {id:'mercy',ty:'tender',name:'Quick Mercy',d:'Grace recharge −15%.',max:5,apply(){up.tendCd*=.85;}},
+  {id:'calm',ty:'tender',name:'Deep Calm',d:'The field slows more.',max:3,apply(){up.slow=Math.max(.15,up.slow-.09);}},
+  {id:'mend',ty:'tender',name:'Mending Touch',d:'The field heals +3/s.',max:4,apply(){up.mend+=3;}},
+  {id:'thorns',ty:'tender',name:'Thorned Love',d:'The field hurts shadows.',max:4,apply(){up.thorns+=1.4;}},
+  {id:'swift',ty:'heart',name:'Swift Soul',d:'Speed +8%, dash +12%.',max:4,apply(){up.speed*=1.08;up.dashCd*=.88;}},
+  {id:'iron',ty:'heart',name:'Iron Heart',d:'Max health +25, full heal.',max:5,apply(){player.maxHp+=25;player.hp=player.maxHp;}},
+  {id:'beat',ty:'heart',name:'Louder Heartbeat',d:'Heartbeat damage +60%.',max:5,apply(){up.beatDmg*=1.6;up.beatR*=1.15;}},
+  {id:'battery',ty:'heart',name:'Vein Battery',d:'Energy +20, faster regen.',max:4,apply(){up.maxEnergy+=20;up.regen+=1.5;}},
+  {id:'hunger',ty:'heart',name:'Hungry Heart',d:'Fragments: more pull, more value.',max:3,apply(){up.magnet*=1.4;up.fragVal+=.5;}},
 ];
 let upChoices=[];
 function openUpgrade(){
-  const pool=UPG.filter(u=>(up.taken[u.id]||0)<u.max);
+  rareNow=pendingRare>0;let pool=(rareNow?RARE:UPG).filter(u=>(up.taken[u.id]||0)<u.max);
+  if(rareNow&&!pool.length){pendingRare=0;pendingUp++;rareNow=false;pool=UPG.filter(u=>(up.taken[u.id]||0)<u.max);}   // every rare already taken: a normal one instead
   upChoices=[];while(upChoices.length<3&&pool.length){upChoices.push(pool.splice(Math.random()*pool.length|0,1)[0]);}
-  if(!upChoices.length){pendingUp=0;player.hp=player.maxHp;return;} // everything maxed: heal instead
-  mode='upgrade';
+  if(!upChoices.length){pendingUp=0;pendingRare=0;player.hp=player.maxHp;return;} // everything maxed: heal instead
+  mode='upgrade';upT=UP_TIME;
   renderCards();
   $('upgrade').classList.remove('hidden');$('touch').classList.add('hidden');
   sfx.upg();
 }
 function renderCards(){
-  const box=$('cards');box.innerHTML='';
+  const box=$('cards');box.innerHTML='';$('upTitle').textContent=t(rareNow?'resonanceRare':'resonance');$('upgrade').classList.toggle('rare',rareNow);
   upChoices.forEach((u,i)=>{const b=document.createElement('button');b.className='card';
-    b.innerHTML=`<span class="n">${i+1}</span><div class="ty ${u.ty}">${t(u.ty==='rage'?'tyRage':u.ty==='tender'?'tyTender':'tyHeart')}</div><h4>${upName(u)}</h4><div class="d">${upDesc(u)}</div><div class="lv">${t('level')} ${(up.taken[u.id]||0)+1} / ${u.max}</div>`;
+    b.className='card q'+(u.ty==='rare'?' rare':'');b.title=upName(u)+' — '+upDesc(u);
+    b.innerHTML=`<span class="n">${i+1}</span><div class="ic ${u.ty}">${u.ty==='rage'?'◆':u.ty==='tender'?'◇':u.ty==='rare'?'★':'♥'}</div><div class="big">${upBig(u)}</div><div class="lb">${upLbl(u)}</div><div class="lv">${u.ty==='rare'?t('rareTag'):(up.taken[u.id]||0)+1+' / '+u.max}</div>`;
     b.addEventListener('click',ev=>{ev.stopPropagation();pickUpgrade(i);});box.appendChild(b);});
 }
+let upT=0;const UP_TIME=6;
 function pickUpgrade(i){
   const u=upChoices[i];if(!u||mode!=='upgrade')return;
-  u.apply();up.taken[u.id]=(up.taken[u.id]||0)+1;pendingUp--;
+  u.apply();up.taken[u.id]=(up.taken[u.id]||0)+1;if(rareNow)pendingRare--;else pendingUp--;
   $('upgrade').classList.add('hidden');mode='play';
-  txt(player.x,player.y-36,upName(u).toUpperCase(),'#e896ac',13,1.4);flashP=.4;
+  txt(player.x,player.y-36,(upBig(u)+' '+upLbl(u)).toUpperCase(),rareNow?'#f3c969':'#e896ac',13,1.4);flashP=.4;
   emit(player.x,player.y,40,{col:C.pink,smin:60,smax:260,lmin:.4,lmax:.9});
   if(touchMode)$('touch').classList.remove('hidden');
-  if(pendingUp>0)setTimeout(()=>{if(mode==='play'&&pendingUp>0)openUpgrade();},250);
+  if(pendingUp>0||pendingRare>0)setTimeout(()=>{if(mode==='play'&&(pendingUp>0||pendingRare>0))openUpgrade();},250);
 }
 
 /* ================= difficulty, combo, hints ================= */
 // hp/spd/dmg: shadows · spawn: time between spawns · count/cap: shadows per wave / on screen · shift: waves earlier that new types appear
-// php: your max health · regen: energy regen · instab: rage instability · tendCd: tenderness cooldown · bullet/fire: enemy shot speed / time between shots · heal: HP back after each wave
+// php: your max health · regen: energy regen · instab: rage instability · tendCd: grace cooldown · bullet/fire: enemy shot speed / time between shots · heal: HP back after each wave
 const DIFFS={
-  easy:  {hp:.55,spd:.75,dmg:.5, spawn:1.6, count:.7, cap:.65,shift:-1,php:150,regen:1.5,instab:.75,tendCd:.75,bullet:.7, fire:1.6, heal:30,score:.6},
-  normal:{hp:1,  spd:1,  dmg:1,  spawn:1,   count:1,  cap:1,  shift:0, php:100,regen:1,  instab:1,  tendCd:1,  bullet:1,  fire:1,   heal:12,score:1},
-  hard:  {hp:1.7,spd:1.3,dmg:1.8,spawn:.55, count:1.5,cap:1.5,shift:2, php:75, regen:.8, instab:1.2,tendCd:1.2,bullet:1.3,fire:.65, heal:0, score:1.75}};
+  easy:  {hp:.55,spd:.75,dmg:.5, spawn:1.6, count:.7, cap:.65,shift:-1,php:150,regen:1.5,instab:.75,tendCd:.75,bullet:.7, fire:1.6, heal:30,score:.6,fragLife:10,vacuum:1,res:.8},
+  normal:{hp:1,  spd:1,  dmg:1,  spawn:1,   count:1,  cap:1,  shift:0, php:100,regen:1,  instab:1,  tendCd:1,  bullet:1,  fire:1,   heal:12,score:1,fragLife:6,vacuum:0,res:1},
+  hard:  {hp:1.7,spd:1.3,dmg:1.8,spawn:.55, count:1.5,cap:1.5,shift:2, php:75, regen:.8, instab:1.2,tendCd:1.2,bullet:1.3,fire:.65, heal:0, score:1.75,fragLife:4,vacuum:0,res:1.25}};
 let diff='normal';try{diff=localStorage.getItem('rougeDouceurDiff')||'normal';}catch(e){}
 if(!DIFFS[diff])diff='normal';
 let D=DIFFS[diff];
@@ -1112,15 +1215,18 @@ function introType(ty){if(seen.has(ty))return;seen.add(ty);const hs=t('hints');i
 /* ================= tutorial ================= */
 let tutOn=true;try{tutOn=localStorage.getItem('rougeDouceurTut')!=='0';}catch(e){}
 const tut={active:false,step:0,t:0,dist:0,flag:false};
-function keyName(k){const m={en:{move:touchMode?'left thumb':'WASD / ZQSD',dash:touchMode?'DASH':'SPACE',rage:touchMode?'RAGE':'J',tend:touchMode?'TEND':'K'},
-  fr:{move:touchMode?'pouce gauche':'ZQSD / WASD',dash:touchMode?'ÉLAN':'ESPACE',rage:touchMode?'RAGE':'J',tend:touchMode?'DOUX':'K'}};return m[lang][k];}
+function keyName(k){
+  if(padMode){const d=padStd?'✕':'3',r=padStd?'□ / R1':'4 / R1',tn=padStd?'○ / L1':'2 / L1';
+    const m={en:{move:'stick / d-pad',dash:d,rage:r,tend:tn},fr:{move:'stick / croix',dash:d,rage:r,tend:tn}};return m[lang][k];}
+  const m={en:{move:touchMode?'left thumb':'WASD / ZQSD',dash:touchMode?'DASH':'SPACE',rage:touchMode?'RAGE':'J',tend:touchMode?'GRACE':'K'},
+  fr:{move:touchMode?'pouce gauche':'ZQSD / WASD',dash:touchMode?'ÉLAN':'ESPACE',rage:touchMode?'RAGE':'J',tend:touchMode?'GRÂCE':'K'}};return m[lang][k];}
 const fillKeys=s=>s.replace(/\{(\w+)\}/g,(_,k)=>keyName(k));
 function clearHl(){document.querySelectorAll('.hl').forEach(e=>e.classList.remove('hl'));}
 function renderTut(){
   if(!tut.active)return;const s=t('tut')[tut.step];
   $('tutStep').textContent=tut.step<6?t('tutLabel')+' · '+(tut.step+1)+' / 6':t('tutLabel');
   $('tutMain').innerHTML=fillKeys(s[0]);$('tutSub').textContent=fillKeys(s[1]);
-  $('tutSkip').textContent=t(touchMode?'tutSkip':'tutSkipKey');$('tutSkip').classList.toggle('hidden',tut.step>=6);
+  $('tutSkip').textContent=t(padMode?'tutSkipPad':touchMode?'tutSkip':'tutSkipKey');$('tutSkip').classList.toggle('hidden',tut.step>=6);
 }
 function updateTutToggle(){const b=$('tutToggle');b.textContent=t('tutToggle')+' : '+t(tutOn?'on':'off');b.classList.toggle('on',tutOn);}
 function tutSpawn(types){const p=player;types.forEach((ty,i)=>{const a=i/types.length*TAU+rand(-.3,.3);
@@ -1166,15 +1272,16 @@ const PX=new Float32Array(40),PY=new Float32Array(40);
 function heartPath(s){ctx.beginPath();ctx.moveTo(0,s*.95);ctx.bezierCurveTo(-s*1.5,0,-s*.75,-s*1.2,0,-s*.42);ctx.bezierCurveTo(s*.75,-s*1.2,s*1.5,0,0,s*.95);ctx.closePath();}
 function drawCity(){
   ctx.globalCompositeOperation='lighter';
-  for(const l of cityLamps){if(l.lit<=0)continue;const a=l.lit*(.9+.1*Math.sin(T*1.3+l.ph));
+  const fk=Math.max(0,(cityDim-.4)/.6);   // 0 in fights, 1 in breaks
+  for(const l of cityLamps){if(l.lit<=0)continue;const a=cityDim*l.lit*(.9+.1*fk*Math.sin(T*1.3+l.ph));
     ctx.globalAlpha=a*.3;ctx.drawImage(glow(l.col),l.x-55,l.y-55,110,110);ctx.globalAlpha=a*.9;ctx.drawImage(glow(l.col),l.x-6,l.y-6,12,12);}
-  for(const w of cityWins){if(w.lit<=0)continue;const a=w.lit*(w.fl?.7+.3*Math.sin(T*w.fl+w.ph):1);
+  for(const w of cityWins){if(w.lit<=0)continue;const a=cityDim*w.lit*(w.fl?1-fk*.3*(1-Math.sin(T*w.fl+w.ph)):1);
     if(Q){ctx.globalAlpha=a*.5;ctx.drawImage(glow(w.col),w.x+w.w/2-16,w.y+w.h/2-16,32,32);}
     ctx.globalAlpha=a;ctx.fillStyle=w.css;ctx.fillRect(w.x-.5,w.y-.5,w.w+1,w.h+1);}
   if(life>.01){ctx.globalAlpha=life*.1;ctx.drawImage(glow([200,40,80]),-W*.25,-H*.25,W*1.5,H*1.5);}
   for(const lw of lightWaves){const k=lw.r/Math.hypot(W,H);const a=Math.max(0,1-k);
-    ctx.globalAlpha=1;ctx.strokeStyle=`rgba(255,140,170,${.22*a})`;ctx.lineWidth=34;ctx.beginPath();ctx.arc(lw.x,lw.y,lw.r,0,TAU);ctx.stroke();
-    ctx.strokeStyle=`rgba(255,225,232,${.6*a})`;ctx.lineWidth=2;ctx.beginPath();ctx.arc(lw.x,lw.y,lw.r,0,TAU);ctx.stroke();}
+    ctx.globalAlpha=1;ctx.strokeStyle=`rgba(255,185,105,${.22*a})`;ctx.lineWidth=34;ctx.beginPath();ctx.arc(lw.x,lw.y,lw.r,0,TAU);ctx.stroke();
+    ctx.strokeStyle=`rgba(255,236,200,${.6*a})`;ctx.lineWidth=2;ctx.beginPath();ctx.arc(lw.x,lw.y,lw.r,0,TAU);ctx.stroke();}
   ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';
 }
 function drawFog(){
@@ -1251,7 +1358,7 @@ function drawEnemies(){
         if(finalShielded(e)){ctx.globalAlpha=a*(.28+.1*Math.sin(e.t*4));ctx.drawImage(glow(C.pink),-e.r*1.6,-e.r*1.6,e.r*3.2,e.r*3.2);
           ctx.globalAlpha=a*.85;ctx.strokeStyle='rgba(255,215,228,.75)';ctx.lineWidth=2;ctx.setLineDash([10,7]);ctx.lineDashOffset=-e.t*30;ctx.beginPath();ctx.arc(0,0,e.r*1.3,0,TAU);ctx.stroke();ctx.setLineDash([]);
           ctx.strokeStyle='rgba(255,215,228,.25)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(0,0,e.r*1.42,0,TAU);ctx.stroke();}
-        else if(e.phase>=2&&e.unveilT>0){const mxT=e.phase===3?5:4.5;ctx.globalAlpha=a*.9;ctx.strokeStyle='rgba(255,150,175,.9)';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,e.r*1.3,-Math.PI/2,-Math.PI/2+TAU*(e.unveilT/mxT));ctx.stroke();}
+        else if(e.phase>=2&&e.unveilT>0){const mxT=e.phase===3?6.5:6;ctx.globalAlpha=a*.9;ctx.strokeStyle='rgba(255,150,175,.9)';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,e.r*1.3,-Math.PI/2,-Math.PI/2+TAU*(e.unveilT/mxT));ctx.stroke();}
         if(e.lungeTele>0){const c=1-e.lungeTele/.8;ctx.globalAlpha=.3+.6*c;ctx.strokeStyle='rgba(255,40,80,.9)';ctx.lineWidth=2+c*6;ctx.setLineDash([14,10]);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(Math.cos(e.lungeA)*700,Math.sin(e.lungeA)*700);ctx.stroke();ctx.setLineDash([]);}
       }
     }else{
@@ -1264,6 +1371,8 @@ function drawEnemies(){
           ctx.strokeStyle=`rgba(255,90,140,${.25+.55*c})`;ctx.lineWidth=1.5;ctx.setLineDash([5,8]);ctx.beginPath();ctx.arc(0,0,150,0,TAU);ctx.stroke();ctx.setLineDash([]);}}
       if(e.type==='hollow'){ctx.globalAlpha=a*.5;ctx.strokeStyle='rgba(255,240,242,.5)';ctx.beginPath();ctx.arc(0,0,e.r*.75,0,TAU);ctx.stroke();}
     }
+    if(e.exposedT>0){const k=e.exposedT/EXPOSE_T;ctx.globalAlpha=(.55+.45*Math.sin(e.t*28))*(.35+.65*k);ctx.strokeStyle='#ffffff';ctx.lineWidth=3;ctx.setLineDash([7,6]);
+      ctx.beginPath();ctx.arc(0,0,e.r*1.2,0,TAU);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=.4*k;ctx.drawImage(glow(C.white),-e.r*2.2,-e.r*2.2,e.r*4.4,e.r*4.4);}   // exposed: white cracked halo
     ctx.globalCompositeOperation='source-over';
     if((e.type==='brute'||e.type==='hollow')&&e.hp<e.maxHp){ctx.globalAlpha=.7*a;ctx.fillStyle='rgba(255,255,255,.08)';ctx.fillRect(-e.r,-e.r-9,e.r*2,2);ctx.fillStyle='#e1163c';ctx.fillRect(-e.r,-e.r-9,e.r*2*Math.max(0,e.hp/e.maxHp),2);}
     ctx.restore();
@@ -1357,6 +1466,7 @@ function render(){
   const sx=(Math.random()*2-1)*shakeA*S.shake,sy=(Math.random()*2-1)*shakeA*S.shake;ctx.translate(sx,sy);
   ctx.drawImage(bg,0,0,W,H);
   drawCity();
+  if(dawn>.01){ctx.globalCompositeOperation='lighter';ctx.globalAlpha=1;ctx.fillStyle=`rgba(46,20,8,${.32*dawn})`;ctx.fillRect(-20,-20,W+40,H+40);ctx.globalCompositeOperation='source-over';}   // the whole city warms up
   drawFog();
   if(mode==='title'){drawTitleHeart();drawTitleGhosts();}
   drawFields();drawFrags();drawPortals();drawEnemies();drawBullets();drawRings();
@@ -1364,6 +1474,10 @@ function render(){
   drawParts(false);drawParts(true);drawAsh();drawTexts();
   ctx.setTransform(DPR,0,0,DPR,0,0);
   ctx.drawImage(vig,0,0,W,H);
+  if(dawn>.01){const da=dawn*(.55+.45*Math.max(0,(cityDim-.4)/.6));   // horizon glow at the top of the screen, stronger in the breaks
+    const gr=ctx.createLinearGradient(0,0,0,H*.55);gr.addColorStop(0,`rgba(255,150,85,${.34*da})`);gr.addColorStop(.45,`rgba(200,80,90,${.1*da})`);gr.addColorStop(1,'rgba(120,40,80,0)');
+    ctx.fillStyle=gr;ctx.fillRect(0,0,W,H*.55);
+    if(dawn>.72){const k=(dawn-.72)/.28;ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.55*k;ctx.drawImage(glow([255,190,120]),W/2-H*.7,-H*.75,H*1.4,H*1.4);ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';}}   // the sun rises
   if(player&&(mode==='play'||mode==='pause'||mode==='upgrade')){
     const pul=v=>S.flash<1?.75:v;
     const low=player.hp/player.maxHp<.3?pul(.5+.5*Math.sin(T*8))*.6:0;
@@ -1406,7 +1520,7 @@ function startGame(){
   up=baseUp();player=newPlayer();
   player.maxHp=player.hp=D.php;up.rageInstab*=D.instab;up.tendCd*=D.tendCd;
   enemies=[];bullets=[];parts=[];frags=[];rings=[];fields=[];texts=[];portals=[];
-  score=0;kills=0;combo=0;comboT=0;bestCombo=0;seen.clear();clearHints();cleared=0;lifeT=0;endShown=false;lightWaves.length=0;for(const w of cityWins)w.at=0;for(const l of cityLamps)l.at=0;harmony=0;lastAb=null;mult=1;harmT=0;res=0;resNeed=10;pendingUp=0;shakeA=0;flashR=0;flashP=0;
+  score=0;kills=0;combo=0;comboT=0;bestCombo=0;seen.clear();clearHints();cleared=0;lifeT=0;endShown=false;lightWaves.length=0;for(const w of cityWins)w.at=0;for(const l of cityLamps)l.at=0;harmony=0;lastAb=null;mult=1;harmT=0;res=0;resNeed=10;pendingUp=0;pendingRare=0;resNeed=Math.round(10*D.res);shakeA=0;flashR=0;flashP=0;
   ['title','over','pause','upgrade'].forEach(id=>$(id).classList.add('hidden'));
   $('hud').classList.remove('hidden');if(touchMode)$('touch').classList.remove('hidden');
   mode='play';langVis(false);tut.active=false;$('tut').classList.add('hidden');clearHl();
@@ -1439,7 +1553,7 @@ function continueEndless(){
 /* ================= leaderboard (saved on this computer) ================= */
 let board=[];try{board=JSON.parse(localStorage.getItem('rougeDouceurBoard')||'[]');if(!Array.isArray(board))board=[];}catch(e){board=[];}
 board=board.filter(x=>x&&typeof x.name==='string'&&typeof x.score==='number');
-let pname='';try{pname=localStorage.getItem('rougeDouceurName')||'';}catch(e){}
+let pname='';   // the name field starts empty for every visitor (nothing remembered between sessions)
 let boardFilter='all',boardFrom='title',lastEntry=null;
 function saveBoard(){board.sort((a,b)=>b.score-a.score);if(board.length>200)board.length=200;try{localStorage.setItem('rougeDouceurBoard',JSON.stringify(board))}catch(e){}}
 function recordScore(){
@@ -1469,15 +1583,19 @@ function updateSettingsUI(){
 function openSettings(from){setFrom=from;$(from).classList.add('hidden');$('settings').classList.remove('hidden');updateSettingsUI();}
 function closeSettings(){$('settings').classList.add('hidden');$(setFrom).classList.remove('hidden');saveSettings();}
 function closeBoard(){$('board').classList.add('hidden');$(boardFrom).classList.remove('hidden');}
-function tryStart(){
-  const inp=$('pname');const v=inp.value.trim().slice(0,16);
-  if(!v){inp.classList.remove('need');void inp.offsetWidth;inp.classList.add('need');inp.focus();return;}
-  pname=v;try{localStorage.setItem('rougeDouceurName',v)}catch(e){}inp.blur();startGame();
+/* full screen: entered automatically when a game starts (needs a click/key), F toggles it */
+const isFull=()=>!!(document.fullscreenElement||document.webkitFullscreenElement);
+function goFull(){if(isFull())return;const d=document.documentElement;try{const r=(d.requestFullscreen||d.webkitRequestFullscreen).call(d);if(r&&r.catch)r.catch(()=>{});}catch(e){}}
+let fullOptOut=false;   // true after F was used to leave full screen on purpose
+function toggleFull(){if(!isFull()){fullOptOut=false;goFull();return;}fullOptOut=true;try{const r=(document.exitFullscreen||document.webkitExitFullscreen).call(document);if(r&&r.catch)r.catch(()=>{});}catch(e){}}
+function tryStart(fromPad){
+  const inp=$('pname');let v=inp.value.trim().slice(0,16);if(!v)v=t('padName');   // no name typed: plays as JOUEUR / PLAYER
+  pname=v;inp.blur();goFull();startGame();
 }
 function goTitle(){
   if(mode!=='pause'&&mode!=='over'&&mode!=='ending')return;
   if(mode==='pause'||mode==='ending')recordScore();
-  mode='title';tut.active=false;clearHl();clearHints();$('banner').classList.remove('show');
+  mode='title';tut.active=false;clearHl();clearHints();$('pname').value='';pname='';   // back to the menu: next visitor types a new name$('banner').classList.remove('show');
   ['pause','over','ending','upgrade','hud','touch','tut','boss'].forEach(id=>$(id).classList.add('hidden'));
   enemies=[];bullets=[];frags=[];rings=[];fields=[];portals=[];texts=[];
   lifeT=.15;cleared=0;lightWaves.length=0;
@@ -1485,11 +1603,128 @@ function goTitle(){
   $('title').classList.remove('hidden');
 }
 function pause(){if(mode!=='play')return;mode='pause';langVis(true);$('pause').classList.remove('hidden');$('touch').classList.add('hidden');}
+function restartGame(){if(mode!=='pause')return;recordScore();$('pause').classList.add('hidden');startGame();}   // restart straight from the pause menu (same name, same difficulty)
 function resume(){if(mode!=='pause')return;mode='play';langVis(false);$('pause').classList.add('hidden');if(touchMode)$('touch').classList.remove('hidden');}
+
+/* ================= gamepad ================= */
+// Works with standard pads (PlayStation / Xbox) and generic USB pads (buttons 1-4, L1/L2/R1/R2, SELECT, START, d-pad on axes).
+// Play: stick / d-pad move · dash · rage · grace · START pause.
+// Menus: stick / d-pad moves the highlight, SELECT is the ONLY confirm button.
+// TURBO / SLOW / CLEAR switches are neutralised: a press only counts after a real release (turbo pulses are ignored),
+// and START needs a long release + a gap between presses (the SLOW function's automatic START pulses are ignored).
+let padIdx=null,padMode=false,padRef=null,padKey='',padStd=true,padFocus=null,padScreen='',padDead=[],padHat=-1;
+const HAT=[[0,-1],[1,-1],[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1]];
+const padHeld=[],padUpAt=[],padDownAt=[],padRepAt=[],padRawAt=[],padMem={};let padStartPend=0,padStartBad=false,padStartRaw=false,padSlowUntil=0;const padStartEdges=[];
+const PAD_SEL=8,PAD_START=9,PAD_BOUNCE=45,PAD_REL=70,PAD_START_QUIET=120;
+function padKeys(){$('kR').textContent=padMode?(padStd?'□':'4'):touchMode?'◆':'J';$('kT').textContent=padMode?(padStd?'○':'2'):touchMode?'◇':'K';}
+function setPadMode(v){if(padMode===v)return;padMode=v;document.body.classList.toggle('pad',v);applyLang();padKeys();if(!v)setFocus(null);else padScreen='';}
+function rumble(ms,strong,weak){try{const a=padRef&&padRef.vibrationActuator;if(a&&padMode&&S.shake>0)a.playEffect('dual-rumble',{duration:ms,strongMagnitude:Math.min(1,strong),weakMagnitude:Math.min(1,weak)}).catch(()=>{});}catch(e){}}
+addEventListener('gamepadconnected',e=>{padIdx=e.gamepad.index;setPadMode(true);toast(t('padOn'));});
+addEventListener('gamepaddisconnected',e=>{if(e.gamepad.index===padIdx){padIdx=null;padRef=null;pad.x=pad.y=0;}});
+const isOpen=id=>!$(id).classList.contains('hidden');
+function padRoot(){if(isOpen('kbd'))return'kbd';if(isOpen('settings'))return'settings';if(isOpen('board'))return'board';if(isOpen('howto'))return'howto';
+  return{title:'title',pause:'pause',upgrade:'cards',over:'over',ending:'ending'}[mode]||'';}
+function padItems(root){if(!root)return[];const els=[...$(root).querySelectorAll('button,input[type=range],#pname')];
+  if((root==='title'||root==='pause'||root==='over')&&isOpen('langSel'))els.push(...$('langSel').querySelectorAll('button'));
+  return els.filter(e=>e.id!=='boardReset'&&!e.disabled&&e.getClientRects().length);}
+function setFocus(el){if(padFocus)padFocus.classList.remove('padfocus');padFocus=el;if(el){el.classList.add('padfocus');try{el.scrollIntoView({block:'nearest'});}catch(e){}}}
+const PAD_DEF={title:'playBtn',pause:'pResume',over:'oAgain',ending:'eGo',board:'boardBack',settings:'setBack',howto:'howBack'};
+function padDefault(root,items){const m=padMem[root];if(m&&items.includes(m))return m;
+  if(root==='cards')return items[Math.min(1,items.length-1)];const d=PAD_DEF[root]&&$(PAD_DEF[root]);return items.includes(d)?d:items[0];}
+function padTick(){tone(520,.05,'triangle',.06);}
+function padMove(dx,dy,root,items,alt){
+  if(padFocus.type==='range'&&dx){const r=padFocus;r.value=clamp(+r.value+dx*(+r.step||1),+r.min,+r.max);
+    r.dispatchEvent(new Event('input'));r.dispatchEvent(new Event('change'));padTick();return;}
+  if(dy>0&&padFocus.closest('#langSel')){const d=PAD_DEF[root]&&$(PAD_DEF[root]);if(d&&items.includes(d)){setFocus(d);padMem[root]=d;padTick();return;}}   // language corner > main button
+  const a=padFocus.getBoundingClientRect(),ax=a.left+a.width/2,ay=a.top+a.height/2;let best=null,bs=1e9;
+  for(const e of items){if(e===padFocus)continue;const b=e.getBoundingClientRect(),bx=b.left+b.width/2,by=b.top+b.height/2;
+    const p=dx?(bx-ax)*dx:(by-ay)*dy,o=dx?Math.abs(by-ay):Math.abs(bx-ax);
+    if(p<=6)continue;if(dx&&o>(a.height+b.height)/2)continue;   // left / right stays on the same row
+    const sc=p+o*2.5;if(sc<bs){bs=sc;best=e;}}
+  if(best){setFocus(best);padMem[root]=best;padTick();}
+  else if(dy&&!alt){const sc=$(root),t0=sc.scrollTop;sc.scrollTop+=dy*160;   // nothing above / below: scroll long pages,
+    if(sc.scrollTop===t0)padMove(dy,0,root,items,true);}                  // or step along a row of buttons (pause, game over)
+}
+function padConfirm(root,items){const el=padFocus;if(!el||!items.includes(el)||el.type==='range')return;
+  padMem[root]=el;if(el.id==='pname'){openKbd();return;}if(el.id==='playBtn'){if(mode==='title')tryStart(true);}else el.click();}
+function pollPad(){
+  const list=navigator.getGamepads?navigator.getGamepads():[];let g=padIdx!=null?list[padIdx]:null;
+  if(!g||!g.connected){g=null;for(const q of list)if(q&&q.connected){g=q;padIdx=q.index;break;}}
+  padRef=g;if(!g){pad.x=pad.y=0;padKey='';return;}
+  const now=performance.now(),B=i=>{const b=g.buttons[i];return !!(b&&(b.pressed||b.value>.5));};
+  // a newly seen controller: buttons already held and axes resting at an extreme are ignored until released
+  const key=g.index+'|'+g.id;if(key!==padKey){padKey=key;padStd=g.mapping==='standard';padDead=g.axes.map(a=>Math.abs(a)>.5);
+    padHat=padStd?-1:g.axes.findIndex((a,i)=>i>=2&&a>1.05);   // generic pads: d-pad sometimes reported as one 'hat' axis (rests at ~1.29)
+    for(let i=0;i<24;i++){padHeld[i]=i<17?B(i):false;padUpAt[i]=-1e9;padRawAt[i]=-1e9;}padKeys();if(padMode)applyLang();}
+  for(let i=0;i<padDead.length;i++)if(padDead[i]&&Math.abs(g.axes[i]||0)<.2)padDead[i]=false;   // an axis held at first sight works again once it returns to centre
+  let x=padDead[0]?0:(g.axes[0]||0),y=padDead[1]?0:(g.axes[1]||0);if(Math.hypot(x,y)<.22){x=0;y=0;}
+  if(padHat>=0){const h=g.axes[padHat];if(h<=1.05&&h>=-1.05){const d=HAT[((Math.round((h+1)/2*7))%8+8)%8];x=d[0];y=d[1];}}
+  if(B(14))x=-1;if(B(15))x=1;if(B(12))y=-1;if(B(13))y=1;
+  pad.x=x;pad.y=y;
+  // raw state: 0-16 buttons, 20-23 = left / right / up / down (stick or d-pad)
+  const raw=[];for(let i=0;i<17;i++)raw[i]=B(i);raw[20]=x<-.4;raw[21]=x>.4;raw[22]=y<-.4;raw[23]=y>.4;   // low threshold: cheap d-pads may not report a full ±1
+  // SLOW switch: the controller then fires START ~70 times a second. A real press flickers 3 times at most (6+ in 1 s = SLOW).
+  if(raw[PAD_START]&&!padStartRaw){padStartEdges.push(now);while(padStartEdges.length&&now-padStartEdges[0]>1000)padStartEdges.shift();
+    if(padStartEdges.length>=6)padSlowUntil=now+1500;}
+  if(raw[PAD_START]&&now<padSlowUntil)padSlowUntil=Math.max(padSlowUntil,now+1500);
+  padStartRaw=!!raw[PAD_START];if(now<padSlowUntil){padStartPend=0;padStartBad=true;}   // SLOW active: START does nothing
+  const hit=[];let any=false;
+  for(let i=0;i<24;i++){if(raw[i])padRawAt[i]=now;
+    const r=!!raw[i]||now-(padRawAt[i]??-1e9)<PAD_BOUNCE;   // contact bounce: a release shorter than 45 ms is not a release
+    if(r&&!padHeld[i]){padHeld[i]=true;padDownAt[i]=now;padRepAt[i]=now+420;
+      const rel=now-padUpAt[i];
+      if(i===PAD_START){padStartBad=false;padStartPend=0;}   // a new press right away = part of a pulse train: the previous one is dropped
+      else if(rel>=PAD_REL)hit[i]=true;                       // turbo pulses (short releases) are not new presses
+    }else if(!r&&padHeld[i]){padHeld[i]=false;padUpAt[i]=now;if(i===PAD_START&&!padStartBad&&now-padDownAt[i]<1000)padStartPend=now+PAD_START_QUIET;}   // a START held over 1 s is not a press
+    if(i===PAD_START&&padStartPend&&!r&&now>=padStartPend&&now>=padSlowUntil){padStartPend=0;hit[i]=true;}   // START acts once it stayed released
+    else if(r&&i>=20&&now>=padRepAt[i]){hit[i]='rep';padRepAt[i]=now+150;}   // hold a direction = repeat in menus
+    if(hit[i])any=true;}
+  const Q=i=>hit[i]===true;
+  if(!padMode&&(any||Math.hypot(x,y)>.5))setPadMode(true);
+  // menus: keep a highlight on screen
+  const root=mode==='play'?'':padRoot(),items=padMode?padItems(root):[];
+  if(root!==padScreen||(padFocus&&!items.includes(padFocus))){padScreen=root;setFocus(items.length?padDefault(root,items):null);}
+  if(!any)return;
+  ensureAudio();
+  if(mode==='play'){
+    if(padStd){if(Q(0))dash();if(Q(2)||Q(5)||Q(7))castRage();if(Q(1)||Q(4)||Q(6))castTender();}
+    else{if(Q(2)||Q(0))dash();if(Q(3)||Q(5)||Q(7))castRage();if(Q(1)||Q(4)||Q(6))castTender();}
+    if(Q(PAD_START))pause();
+    else if(Q(PAD_SEL)&&tut.active)tutEnd();
+    return;
+  }
+  // START = start / pause button: starts the game from the main menu, resumes from pause, plays again after a game over
+  if(Q(PAD_START)){if(root==='kbd')closeKbd();else if(root==='title')tryStart(true);else if(root==='pause')resume();else if(root==='over'&&overT>.8)startGame();return;}
+  if(!items.length)return;
+  const dx=hit[20]?-1:hit[21]?1:0,dy=hit[22]?-1:hit[23]?1:0;
+  if(dx||dy){if(!padFocus)setFocus(padDefault(root,items));else padMove(dx,dy,root,items);}
+  if(Q(PAD_SEL))padConfirm(root,items);
+}
+
+/* ================= on-screen keyboard (type your name with the controller) ================= */
+const KBD_ROWS=['ABCDEFGHIJ','KLMNOPQRST',"UVWXYZÉÈ-'",'1234567890'];
+(function buildKbd(){const box=$('kbdKeys');
+  KBD_ROWS.forEach(r=>[...r].forEach(ch=>{const b=document.createElement('button');b.className='kk';b.textContent=ch;b.dataset.k=ch;box.appendChild(b);}));
+  [['sp','w4'],['del','w3'],['ok','w3 ok']].forEach(([k,c])=>{const b=document.createElement('button');b.className='kk '+c;b.dataset.k=k;box.appendChild(b);});
+  box.addEventListener('click',ev=>{ev.stopPropagation();const b=ev.target.closest('.kk');if(b)kbdPress(b.dataset.k);});
+  $('kbd').addEventListener('click',ev=>ev.stopPropagation());})();
+function kbdLabels(){const q=k=>$('kbdKeys').querySelector('[data-k="'+k+'"]');q('sp').textContent=t('kbdSpace');q('del').textContent=t('kbdDel');q('ok').textContent=t('kbdOk');}
+function openKbd(){if(mode!=='title')return;kbdLabels();$('kbdName').textContent=$('pname').value;
+  $('title').classList.add('hidden');langVis(false);$('kbd').classList.remove('hidden');}
+function closeKbd(){if(!isOpen('kbd'))return;const inp=$('pname');inp.value=inp.value.trim();
+  $('kbd').classList.add('hidden');$('title').classList.remove('hidden');langVis(true);padMem.title=$('playBtn');}
+function kbdPress(k){const inp=$('pname');let v=inp.value;
+  if(k==='ok'){closeKbd();return;}
+  if(k==='del')v=v.slice(0,-1);
+  else if(k==='sp'){if(v&&!v.endsWith(' ')&&v.length<16)v+=' ';}
+  else if(v.length<16)v+=k;
+  inp.value=v;$('kbdName').textContent=v;tone(660,.05,'triangle',.06);}
 
 /* ================= input ================= */
 addEventListener('keydown',e=>{
   const c=e.code,k=e.key.toLowerCase();
+  if(padMode)setPadMode(false);
+  if(isOpen('kbd')){e.preventDefault();closeKbd();if(c!=='Escape'&&c!=='Enter'&&c!=='NumpadEnter')$('pname').focus();return;}
   if(e.target&&e.target.tagName==='INPUT'){if((c==='Enter'||c==='NumpadEnter')&&e.target.id==='pname'){e.preventDefault();if(mode==='title')tryStart();}
     else if(c==='Escape'&&!$('settings').classList.contains('hidden'))closeSettings();return;}
   if(e.target&&e.target.tagName==='BUTTON'&&(c==='Enter'||c==='NumpadEnter'||c==='Space'))return; // let the focused button do its job
@@ -1501,6 +1736,7 @@ addEventListener('keydown',e=>{
   const first=!keys[c];keys[c]=true;if(!first)return;
   if(c==='KeyM'||k==='m'){toggleMute();return;}
   if(k==='l'){setLang(lang==='en'?'fr':'en');if(mode==='play')toast(t('langName'));return;}
+  if(c==='KeyF'){toggleFull();return;}
   if(mode==='over'&&c==='Escape'&&overT>.8){goTitle();return;}
   if(mode==='ending'&&(c==='Enter'||c==='NumpadEnter'||c==='Space')){continueEndless();return;}
   if(mode==='title'){const di=['Digit1','Digit2','Digit3'].indexOf(c);if(di>=0){setDiff(['easy','normal','hard'][di]);return;}}
@@ -1508,6 +1744,7 @@ addEventListener('keydown',e=>{
   if(mode==='over'&&(c==='Enter'||c==='NumpadEnter'||k==='r')&&overT>.8){startGame();return;}
   if(mode==='upgrade'){const n=['Digit1','Digit2','Digit3'].indexOf(c)>=0?['Digit1','Digit2','Digit3'].indexOf(c):['Numpad1','Numpad2','Numpad3'].indexOf(c);if(n>=0)pickUpgrade(n);return;}
   if(mode==='pause'&&(k==='p'||c==='Escape'||c==='Enter')){resume();return;}
+  if(mode==='pause'&&k==='r'){restartGame();return;}
   if(mode==='play'&&c==='Tab'&&tut.active){e.preventDefault();tutEnd();return;}
   if(mode==='play'){
     if(c==='Space'||c==='ShiftLeft'||c==='ShiftRight')dash();
@@ -1536,7 +1773,7 @@ $('howto').addEventListener('click',ev=>ev.stopPropagation());
 $('over').addEventListener('click',()=>{if(mode==='over'&&overT>.8)startGame();});
 $('pause').addEventListener('click',resume);
 document.querySelector('.nameRow').addEventListener('click',ev=>ev.stopPropagation());
-$('pname').value=pname;$('pname').addEventListener('input',()=>$('pname').classList.remove('need'));
+$('pname').value='';try{localStorage.removeItem('rougeDouceurName');}catch(e){}$('pname').addEventListener('input',()=>$('pname').classList.remove('need'));
 $('boardBtn').addEventListener('click',ev=>{ev.stopPropagation();openBoard('title');});
 $('setBtn').addEventListener('click',ev=>{ev.stopPropagation();openSettings('title');});
 $('pSet').addEventListener('click',ev=>{ev.stopPropagation();openSettings('pause');});
@@ -1555,6 +1792,7 @@ document.querySelectorAll('#boardTabs button').forEach(b=>b.addEventListener('cl
 $('board').addEventListener('click',ev=>ev.stopPropagation());
 $('pResume').addEventListener('click',ev=>{ev.stopPropagation();resume();});
 $('pMenu').addEventListener('click',ev=>{ev.stopPropagation();goTitle();});
+$('pRestart').addEventListener('click',ev=>{ev.stopPropagation();restartGame();});
 $('oAgain').addEventListener('click',ev=>{ev.stopPropagation();if(mode==='over'&&overT>.8)startGame();});
 $('oMenu').addEventListener('click',ev=>{ev.stopPropagation();if(overT>.8)goTitle();});
 $('eGo').addEventListener('click',ev=>{ev.stopPropagation();continueEndless();});
@@ -1579,9 +1817,14 @@ zone.addEventListener('pointerup',endStick);zone.addEventListener('pointercancel
 let last=performance.now(),fpsAcc=0,fpsN=0;
 function frame(now){
   requestAnimationFrame(frame);
+  pollPad();
   const raw=(now-last)/1000;let dt=Math.min(.05,raw);last=now;
   if(mode==='play'&&Q&&raw<.5){fpsAcc+=raw;fpsN++;if(fpsAcc>2.5){if(fpsN/fpsAcc<48){Q=0;resize();}fpsAcc=0;fpsN=0;}}
   if(hitStop>0){hitStop-=dt;dt*=.1;}
+  {const dt0=mode==='title'?0:(mode==='ending'||endShown)?1:lifeT*.65;dawn+=(dt0-dawn)*Math.min(1,raw*.5);}
+  if(mode!=='pause'){const fight=(mode==='play'||mode==='dying')&&!WS.clear&&(enemies.length+portals.length)>0;cityDim+=((fight?.4:1)-cityDim)*Math.min(1,raw*1.6);}
+  if(mode==='upgrade'&&isOpen('upgrade')){upT-=raw<.5?raw:0;$('upTimerFill').style.width=Math.max(0,upT/UP_TIME*100)+'%';   // nobody chooses: one is picked for you
+    if(upT<=0){const fc=document.querySelector('#cards .card.padfocus');const i=fc?[...$('cards').children].indexOf(fc):(Math.random()*upChoices.length|0);pickUpgrade(i);}}
   if(mode==='play'){update(dt,false);if(mode==='play'||mode==='upgrade')hud();}
   else if(mode==='dying'){deathT+=dt;update(dt*.3,true);if(deathT>1.7)showOver();}
   else if(mode==='title'||mode==='over'||mode==='ending'){T+=dt;overT+=dt;
@@ -1598,6 +1841,8 @@ $('tutSkip').addEventListener('click',ev=>{ev.stopPropagation();tutEnd();});
 $('tutToggle').addEventListener('click',ev=>{ev.stopPropagation();tutOn=!tutOn;try{localStorage.setItem('rougeDouceurTut',tutOn?'1':'0')}catch(e){}updateTutToggle();});
 $('bestTitle').textContent=best.toLocaleString();
 addEventListener('resize',()=>{resize();});
+// full screen as soon as the player clicks, taps or presses a key (browsers need one of these; a controller button doesn't count)
+['mousedown','touchend','keydown'].forEach(ev=>addEventListener(ev,e=>{if(fullOptOut||isFull()||(ev==='keydown'&&e.code==='KeyF'))return;goFull();},true));
 requestAnimationFrame(frame);
 })();
 </script>
