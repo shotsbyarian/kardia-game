@@ -452,7 +452,7 @@ try{const o=JSON.parse(localStorage.getItem('rougeDouceurSettings')||'{}');for(c
 function saveSettings(){try{localStorage.setItem('rougeDouceurSettings',JSON.stringify(S))}catch(e){}}
 const masterVol=()=>muted?0:.7*S.vol;
 /* city revival: windows and street lamps that light up as waves are cleared */
-const cityWins=[],cityLamps=[],lightWaves=[];let cityDim=1,dawn=0;   // dawn: 0 night … 1 sunrise   // 0.4 during fights, 1 in breaks / menus
+const cityWins=[],cityLamps=[],lightWaves=[];let cityDim=1,blackT0=0,blackX=0,blackY=0,flickT0=0;   // death: the city goes dark in a wave from the heart   // 0.4 during fights, 1 in breaks / menus
 let life=0,lifeT=0,cleared=0,endShown=false,endAt=0;
 function syncCity(){for(const w of cityWins){w.lit=w.thr<=lifeT?1:0;w.at=0;}for(const l of cityLamps){l.lit=l.thr<=lifeT?1:0;l.at=0;}}
 function reviveCity(){
@@ -683,14 +683,11 @@ function buildBG(){
     if(w>11&&h>11&&r()<.5)waterTower(x+5+r()*(w-10),y+5+r()*(h-10));
     addWins(x,y,w,h,r()<.6?Math.max(1,Math.min(2,Math.round(w*h/3200))):0);
   }
-  // street lamps at the avenue corners
-  for(const u of u0s)for(const v of v0s){const [lx,ly]=Pt(u+AV/2-2,v+ST/2+2);if(!inSq(lx,ly,6))cityLamps.push({x:lx,y:ly,thr:.25+r()*.75,col:r()<.6?[255,185,100]:[255,215,155],lit:0,at:0,ph:r()*TAU});}
   // Broadway: cuts diagonally through the grid (and the buildings), with its own lamps
   g.lineCap='butt';g.strokeStyle=GROUND;g.lineWidth=22;g.beginPath();g.moveTo(...bw0);g.lineTo(...bw1);g.stroke();
   for(const o of [-11,11]){const L=Math.hypot(bw1[0]-bw0[0],bw1[1]-bw0[1]),nx=-(bw1[1]-bw0[1])/L*o,ny=(bw1[0]-bw0[0])/L*o;
     g.strokeStyle=o<0?'rgba(255,205,175,.05)':'rgba(0,0,0,.5)';g.lineWidth=1.5;g.beginPath();g.moveTo(bw0[0]+nx,bw0[1]+ny);g.lineTo(bw1[0]+nx,bw1[1]+ny);g.stroke();}
   g.strokeStyle='rgba(255,190,140,.045)';g.lineWidth=1;g.setLineDash([9,12]);g.beginPath();g.moveTo(...bw0);g.lineTo(...bw1);g.stroke();g.setLineDash([]);
-  {const L=Math.hypot(bw1[0]-bw0[0],bw1[1]-bw0[1]);for(let d=60;d<L;d+=130){const k=d/L,x=bw0[0]+(bw1[0]-bw0[0])*k,y=bw0[1]+(bw1[1]-bw0[1])*k;if(x>0&&x<W&&y>0&&y<H&&!inSq(x,y,10))cityLamps.push({x:x+8,y:y-5,thr:.15+r()*.7,col:[255,205,140],lit:0,at:0,ph:r()*TAU});}}
   // no window may sit on Broadway
   for(let i=cityWins.length-1;i>=0;i--){const w=cityWins[i];if(bwD(w.x,w.y)<14)cityWins.splice(i,1);}
   g.strokeStyle='rgba(120,20,40,.13)';g.lineWidth=1;
@@ -754,6 +751,7 @@ const sfx={
   wave(){tone(220,1.6,'sawtooth',.05,110,.3);tone(329.6,1.6,'sine',.06,165,.3);},
   clear(){[659.3,784,987.8].forEach((f,i)=>tone(f,1,'sine',.06,null,.05,i*.1));},
   over(){tone(220,2.8,'sawtooth',.12,36,.02);noise(2.4,.2,900,'lowpass',50);},
+  blackout(){tone(70,.8,'sine',.3,26,.004,.35);tone(140,.4,'square',.05,40,.004,.37);noise(.5,.16,500,'lowpass',60,.35);},   // the city's power goes down
   shoot(){if(sfxBudget<=0)return;sfxBudget--;tone(520,.18,'sine',.03,240);},
   boss(){tone(45,2.5,'sawtooth',.25,30,.4);noise(2.5,.2,400,'lowpass',80);},
   echo(){tone(300,.4,'sawtooth',.12,90);noise(.35,.2,1800,'bandpass',300);},
@@ -973,11 +971,12 @@ function die(){
   if(mode!=='play')return;
   const p=player;
   if(up.lives>0){up.lives--;p.hp=Math.round(p.maxHp*.5);p.instab=Math.min(p.instab,30);p.iframes=2.5;flashP=1;shake(14);sfx.upg();   // Second wind
-    emit(p.x,p.y,90,{col:C.pink,smin:80,smax:520,lmin:.5,lmax:1.2,zmin:1.5,zmax:4});txt(p.x,p.y-48,t('secondWind'),'#f3c969',16,1.8);return;}
+    emit(p.x,p.y,90,{col:C.pink,smin:80,smax:520,lmin:.5,lmax:1.2,zmin:1.5,zmax:4});txt(p.x,p.y-48,t('secondWind'),'#f3c969',16,1.8);flickT0=performance.now();return;}   // the lights almost go out, then come back
   p.hp=0;mode='dying';deathT=0;
   emit(p.x,p.y,160,{col:C.red,smin:60,smax:700,lmin:.6,lmax:1.8,zmin:1.5,zmax:5,drag:1.6});
   emit(p.x,p.y,60,{col:C.pink,smin:20,smax:300,lmin:.8,lmax:2,zmin:1,zmax:3,drag:1.2});
   shake(30);flashR=1;sfx.over();$('touch').classList.add('hidden');
+  blackT0=performance.now()+350;blackX=p.x;blackY=p.y;sfx.blackout();   // starts right after the red flash, so it can be seen   // the heart stops: the Silence takes the city back
 }
 function updatePlayer(dt){
   const p=player;
@@ -1130,7 +1129,7 @@ function collect(g){
 }
 function updateFx(dt){
   life+=(lifeT-life)*Math.min(1,dt*1.2);
-  for(const w of cityWins){if(w.thr<=lifeT){if(T>=w.at)w.lit=Math.min(1,w.lit+dt*2.5);}else if(w.lit>0)w.lit=Math.max(0,w.lit-dt*.8);}
+  for(const w of cityWins){if(w.thr<=lifeT&&!blackT0){if(T>=w.at)w.lit=Math.min(1,w.lit+dt*2.5);}else if(w.lit>0)w.lit=Math.max(0,w.lit-dt*.8);}
   for(const l of cityLamps){if(l.thr<=lifeT){if(T>=l.at)l.lit=Math.min(1,l.lit+dt*1.5);}else if(l.lit>0)l.lit=Math.max(0,l.lit-dt*.8);}
   const maxR=Math.hypot(W,H);for(const lw of lightWaves)lw.r+=900*dt;
   for(let i=lightWaves.length-1;i>=0;i--)if(lightWaves[i].r>maxR)lightWaves.splice(i,1);
@@ -1275,7 +1274,11 @@ function drawCity(){
   const fk=Math.max(0,(cityDim-.4)/.6);   // 0 in fights, 1 in breaks
   for(const l of cityLamps){if(l.lit<=0)continue;const a=cityDim*l.lit*(.9+.1*fk*Math.sin(T*1.3+l.ph));
     ctx.globalAlpha=a*.3;ctx.drawImage(glow(l.col),l.x-55,l.y-55,110,110);ctx.globalAlpha=a*.9;ctx.drawImage(glow(l.col),l.x-6,l.y-6,12,12);}
-  for(const w of cityWins){if(w.lit<=0)continue;const a=cityDim*w.lit*(w.fl?1-fk*.3*(1-Math.sin(T*w.fl+w.ph)):1);
+  const nowMs=performance.now(),bo=blackT0&&nowMs>=blackT0?nowMs-blackT0:-1,fo=flickT0?nowMs-flickT0:-1;
+  for(const w of cityWins){if(w.lit<=0)continue;let k=1;
+    if(bo>=0){const tOff=Math.hypot(w.x-blackX,w.y-blackY)/1.4;if(bo>tOff){w.lit=0;continue;}if(bo>tOff-150)k=Math.random()<.5?.12:1;}   // dark ring spreading from the heart, windows flicker just before dying
+    else if(fo>=0&&fo<1000)k=fo<700?(Math.random()<.45?.08:.5+.5*Math.random()):1;   // second wind: near blackout, then the lights hold
+    const a=k*cityDim*w.lit*(w.fl?1-fk*.3*(1-Math.sin(T*w.fl+w.ph)):1);
     if(Q){ctx.globalAlpha=a*.5;ctx.drawImage(glow(w.col),w.x+w.w/2-16,w.y+w.h/2-16,32,32);}
     ctx.globalAlpha=a;ctx.fillStyle=w.css;ctx.fillRect(w.x-.5,w.y-.5,w.w+1,w.h+1);}
   if(life>.01){ctx.globalAlpha=life*.1;ctx.drawImage(glow([200,40,80]),-W*.25,-H*.25,W*1.5,H*1.5);}
@@ -1466,7 +1469,6 @@ function render(){
   const sx=(Math.random()*2-1)*shakeA*S.shake,sy=(Math.random()*2-1)*shakeA*S.shake;ctx.translate(sx,sy);
   ctx.drawImage(bg,0,0,W,H);
   drawCity();
-  if(dawn>.01){ctx.globalCompositeOperation='lighter';ctx.globalAlpha=1;ctx.fillStyle=`rgba(46,20,8,${.32*dawn})`;ctx.fillRect(-20,-20,W+40,H+40);ctx.globalCompositeOperation='source-over';}   // the whole city warms up
   drawFog();
   if(mode==='title'){drawTitleHeart();drawTitleGhosts();}
   drawFields();drawFrags();drawPortals();drawEnemies();drawBullets();drawRings();
@@ -1474,10 +1476,6 @@ function render(){
   drawParts(false);drawParts(true);drawAsh();drawTexts();
   ctx.setTransform(DPR,0,0,DPR,0,0);
   ctx.drawImage(vig,0,0,W,H);
-  if(dawn>.01){const da=dawn*(.55+.45*Math.max(0,(cityDim-.4)/.6));   // horizon glow at the top of the screen, stronger in the breaks
-    const gr=ctx.createLinearGradient(0,0,0,H*.55);gr.addColorStop(0,`rgba(255,150,85,${.34*da})`);gr.addColorStop(.45,`rgba(200,80,90,${.1*da})`);gr.addColorStop(1,'rgba(120,40,80,0)');
-    ctx.fillStyle=gr;ctx.fillRect(0,0,W,H*.55);
-    if(dawn>.72){const k=(dawn-.72)/.28;ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.55*k;ctx.drawImage(glow([255,190,120]),W/2-H*.7,-H*.75,H*1.4,H*1.4);ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';}}   // the sun rises
   if(player&&(mode==='play'||mode==='pause'||mode==='upgrade')){
     const pul=v=>S.flash<1?.75:v;
     const low=player.hp/player.maxHp<.3?pul(.5+.5*Math.sin(T*8))*.6:0;
@@ -1516,7 +1514,7 @@ function hud(){
 
 /* ================= flow ================= */
 function startGame(){
-  ensureAudio();
+  ensureAudio();blackT0=0;flickT0=0;
   up=baseUp();player=newPlayer();
   player.maxHp=player.hp=D.php;up.rageInstab*=D.instab;up.tendCd*=D.tendCd;
   enemies=[];bullets=[];parts=[];frags=[];rings=[];fields=[];texts=[];portals=[];
@@ -1595,7 +1593,7 @@ function tryStart(fromPad){
 function goTitle(){
   if(mode!=='pause'&&mode!=='over'&&mode!=='ending')return;
   if(mode==='pause'||mode==='ending')recordScore();
-  mode='title';tut.active=false;clearHl();clearHints();$('pname').value='';pname='';   // back to the menu: next visitor types a new name$('banner').classList.remove('show');
+  mode='title';blackT0=0;flickT0=0;tut.active=false;clearHl();clearHints();$('pname').value='';pname='';   // back to the menu: next visitor types a new name$('banner').classList.remove('show');
   ['pause','over','ending','upgrade','hud','touch','tut','boss'].forEach(id=>$(id).classList.add('hidden'));
   enemies=[];bullets=[];frags=[];rings=[];fields=[];portals=[];texts=[];
   lifeT=.15;cleared=0;lightWaves.length=0;
@@ -1821,7 +1819,6 @@ function frame(now){
   const raw=(now-last)/1000;let dt=Math.min(.05,raw);last=now;
   if(mode==='play'&&Q&&raw<.5){fpsAcc+=raw;fpsN++;if(fpsAcc>2.5){if(fpsN/fpsAcc<48){Q=0;resize();}fpsAcc=0;fpsN=0;}}
   if(hitStop>0){hitStop-=dt;dt*=.1;}
-  {const dt0=mode==='title'?0:(mode==='ending'||endShown)?1:lifeT*.65;dawn+=(dt0-dawn)*Math.min(1,raw*.5);}
   if(mode!=='pause'){const fight=(mode==='play'||mode==='dying')&&!WS.clear&&(enemies.length+portals.length)>0;cityDim+=((fight?.4:1)-cityDim)*Math.min(1,raw*1.6);}
   if(mode==='upgrade'&&isOpen('upgrade')){upT-=raw<.5?raw:0;$('upTimerFill').style.width=Math.max(0,upT/UP_TIME*100)+'%';   // nobody chooses: one is picked for you
     if(upT<=0){const fc=document.querySelector('#cards .card.padfocus');const i=fc?[...$('cards').children].indexOf(fc):(Math.random()*upChoices.length|0);pickUpgrade(i);}}
