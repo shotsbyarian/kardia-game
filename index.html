@@ -24,6 +24,7 @@ canvas{display:block;position:fixed;inset:0;cursor:crosshair}
 .lbl{font-size:10px;letter-spacing:.25em;color:var(--mute);display:flex;justify-content:space-between;margin-bottom:4px}
 .lbl span{color:var(--txt)}
 .lbl .l{color:var(--mute)}
+#idleMsg{position:fixed;left:50%;bottom:7%;transform:translateX(-50%);z-index:40;font:700 11px 'Syncopate',sans-serif;letter-spacing:.3em;color:var(--pink);background:rgba(10,4,6,.82);border:1px solid rgba(232,150,172,.4);padding:9px 18px;pointer-events:none;white-space:nowrap}
 #langSel{position:fixed;top:16px;right:16px;z-index:12;display:flex;gap:6px}
 #langSel button{font-family:'Syncopate',sans-serif;font-size:11px;letter-spacing:.2em;padding:7px 10px;background:rgba(10,4,6,.7);color:var(--mute);border:1px solid rgba(225,22,60,.3);cursor:pointer}
 #langSel button.on{color:var(--txt);border-color:var(--red);box-shadow:0 0 12px rgba(225,22,60,.4)}
@@ -417,6 +418,7 @@ body.touch #soft{bottom:auto;top:56px}
   <div class="cta" data-i18n="kbdHint">✚ move · SELECT type · START = OK</div>
 </div>
 
+<div id="idleMsg" class="hidden"></div>
 <div id="langSel" aria-label="Language"><button data-lang="en">EN</button><button data-lang="fr">FR</button></div>
 
 <script>
@@ -477,7 +479,7 @@ en:{docTitle:'Kardia — Kill the Silence',logo:'KARDIA',heart:'HEART',energy:'E
   hRage:'<b>Rage</b> — a red shockwave that destroys shadows. The more unstable your heart, the harder it hits, but at 100% your heart breaks.',
   hTend:'<em>Grace</em> — a pink bubble that calms your heart, heals you and slows enemies, but softens your attacks for a moment.',
   hHarm:'<span class="hl2">Switch between them</span> to build <em>Harmony</em>: more damage, more points.',
-  hCtrlT:'CONTROLS',resonance:'RESONANCE',exposed:'EXPOSED ×2.5',resonanceRare:'RARE RESONANCE',rareTag:'★ RARE',secondWind:'SECOND WIND',resReady:'RESONANCE READY · AFTER THE WAVE',resSub:'Choose one.',
+  hCtrlT:'CONTROLS',resonance:'RESONANCE',idleBack:'BACK TO MENU IN {n}',exposed:'EXPOSED ×2.5',resonanceRare:'RARE RESONANCE',rareTag:'★ RARE',secondWind:'SECOND WIND',resReady:'RESONANCE READY · AFTER THE WAVE',resSub:'Choose one.',
   still:'STILL',resume:'[ P / ESC RESUME · R RESTART ]',resumeTouch:'[ TAP TO RESUME ]',overTitle:'THE SILENCE<br>WINS',overTag:'YOUR HEART STOPPED',
   score:'SCORE',kills:'KILLS',newbest:'— A NEW RECORD OF FEELING —',again:'[ PRESS ENTER OR CLICK TO BEAT AGAIN ]',againTouch:'[ TAP TO BEAT AGAIN ]',
   tendBtn:'GRACE',dash:'DASH',soundOn:'SOUND ON',soundOff:'SOUND OFF',harmonyN:'HARMONY',discord:'discord',noEnergy:'no energy',fracture:'HEART FRACTURE',
@@ -529,7 +531,7 @@ fr:{docTitle:'Kardia — Tuer le silence',logo:'KARDIA',heart:'CŒUR',energy:'É
   hRage:'<b>Rage</b> — une onde rouge qui détruit les ombres. Plus ton cœur est instable, plus elle frappe fort, mais à 100 % ton cœur se brise.',
   hTend:'<em>Grâce</em> — une bulle rose qui apaise ton cœur, te soigne et ralentit les ennemis, mais adoucit tes coups un instant.',
   hHarm:'<span class="hl2">Alterne les deux</span> pour créer l’<em>Harmonie</em> : plus de dégâts, plus de points.',
-  hCtrlT:'COMMANDES',resonance:'RÉSONANCE',exposed:'EXPOSÉ ×2,5',resonanceRare:'RÉSONANCE RARE',rareTag:'★ RARE',secondWind:'SECOND SOUFFLE',resReady:'RÉSONANCE PRÊTE · APRÈS LA VAGUE',resSub:'Choisis-en un.',
+  hCtrlT:'COMMANDES',resonance:'RÉSONANCE',idleBack:'RETOUR AU MENU DANS {n}',exposed:'EXPOSÉ ×2,5',resonanceRare:'RÉSONANCE RARE',rareTag:'★ RARE',secondWind:'SECOND SOUFFLE',resReady:'RÉSONANCE PRÊTE · APRÈS LA VAGUE',resSub:'Choisis-en un.',
   still:'PAUSE',resume:'[ P / ÉCHAP REPRENDRE · R RECOMMENCER ]',resumeTouch:'[ TOUCHE POUR REPRENDRE ]',overTitle:'LE SILENCE<br>L’EMPORTE',overTag:'TON CŒUR S’EST ARRÊTÉ',
   score:'SCORE',kills:'ÉLIMINÉS',newbest:'— UN NOUVEAU RECORD D’ÉMOTION —',again:'[ ENTRÉE OU CLIC POUR BATTRE À NOUVEAU ]',againTouch:'[ TOUCHE POUR BATTRE À NOUVEAU ]',
   tendBtn:'GRÂCE',dash:'ÉLAN',soundOn:'SON ACTIVÉ',soundOff:'SON COUPÉ',harmonyN:'HARMONIE',discord:'discorde',noEnergy:'pas d’énergie',fracture:'CŒUR FRACTURÉ',
@@ -1678,6 +1680,7 @@ function pollPad(){
     else if(r&&i>=20&&now>=padRepAt[i]){hit[i]='rep';padRepAt[i]=now+150;}   // hold a direction = repeat in menus
     if(hit[i])any=true;}
   const Q=i=>hit[i]===true;
+  if(any||Math.hypot(x,y)>.5)touchInput();
   if(!padMode&&(any||Math.hypot(x,y)>.5))setPadMode(true);
   // menus: keep a highlight on screen
   const root=mode==='play'?'':padRoot(),items=padMode?padItems(root):[];
@@ -1813,9 +1816,29 @@ zone.addEventListener('pointerup',endStick);zone.addEventListener('pointercancel
 
 /* ================= loop ================= */
 let last=performance.now(),fpsAcc=0,fpsN=0;
+/* ================= exhibition idle timer: nobody touches anything -> back to the main menu ================= */
+let lastInput=performance.now();const touchInput=()=>{lastInput=performance.now();};
+['keydown','mousedown','touchstart','wheel'].forEach(ev=>addEventListener(ev,touchInput,{capture:true,passive:true}));
+const IDLE={over:20,ending:40,pause:60,sub:60};let idleScr='';
+function idleCheck(){
+  const sub=['settings','board','howto','kbd'].find(id=>!$(id).classList.contains('hidden'));
+  const scr=mode+'|'+(sub||'');if(scr!==idleScr){idleScr=scr;lastInput=performance.now();}   // each new screen gets the full time
+  let lim=0;
+  if(mode==='over')lim=sub?IDLE.sub:IDLE.over;else if(mode==='ending')lim=sub?IDLE.sub:IDLE.ending;else if(mode==='pause')lim=IDLE.pause;else if(mode==='title'&&sub)lim=IDLE.sub;
+  const m=$('idleMsg');
+  if(!lim){if(!m.classList.contains('hidden'))m.classList.add('hidden');return;}
+  const left=lim-(performance.now()-lastInput)/1000;
+  if(left<=10&&left>0){m.textContent=t('idleBack').replace('{n}',Math.ceil(left));m.classList.remove('hidden');}else m.classList.add('hidden');
+  if(left>0)return;
+  m.classList.add('hidden');lastInput=performance.now();
+  if(!$('kbd').classList.contains('hidden'))closeKbd();
+  ['settings','board','howto'].forEach(id=>$(id).classList.add('hidden'));
+  if(mode==='title'){$('title').classList.remove('hidden');langVis(true);return;}
+  goTitle();   // over / ending / pause: back to the main menu (the score is already saved)
+}
 function frame(now){
   requestAnimationFrame(frame);
-  pollPad();
+  pollPad();idleCheck();
   const raw=(now-last)/1000;let dt=Math.min(.05,raw);last=now;
   if(mode==='play'&&Q&&raw<.5){fpsAcc+=raw;fpsN++;if(fpsAcc>2.5){if(fpsN/fpsAcc<48){Q=0;resize();}fpsAcc=0;fpsN=0;}}
   if(hitStop>0){hitStop-=dt;dt*=.1;}
